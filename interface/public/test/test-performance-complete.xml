@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<performance>
+  <!-- 仿真时间（秒） -->
+  <simulationTime>30</simulationTime>
+  
+  <!-- 仿真状态 -->
+  <status>complete</status>
+  
+  <!-- 整体性能指标 -->
+  <overall>
+    <throughput>2150.8</throughput>
+    <delay>22.6</delay>
+    <transmissionRate>1480.3</transmissionRate>
+    <packetLoss>2.3</packetLoss>
+  </overall>
+  
+  <!-- 业务类型A的性能指标 -->
+  <business type="A">
+    <throughput>580.5</throughput>
+    <delay>19.2</delay>
+    <transmissionRate>420.8</transmissionRate>
+    <packetLoss>1.9</packetLoss>
+  </business>
+  
+  <!-- 业务类型B的性能指标 -->
+  <business type="B">
+    <throughput>720.6</throughput>
+    <delay>24.8</delay>
+    <transmissionRate>510.2</transmissionRate>
+    <packetLoss>2.6</packetLoss>
+  </business>
+  
+  <!-- 业务类型C的性能指标 -->
+  <business type="C">
+    <throughput>450.3</throughput>
+    <delay>21.5</delay>
+    <transmissionRate>295.7</transmissionRate>
+    <packetLoss>2.1</packetLoss>
+  </business>
+  
+  <!-- 业务类型D的性能指标 -->
+  <business type="D">
+    <throughput>399.4</throughput>
+    <delay>23.1</delay>
+    <transmissionRate>253.6</transmissionRate>
+    <packetLoss>2.5</packetLoss>
+  </business>
+  
+  <!-- 节点之间的通信连接关系 -->
+  <links>
+    
+    <!-- ==================== 有线连接 ==================== -->
+    
+    <link>
+      <node1>OCC1</node1>
+      <node2>MBS1</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <link>
+      <node1>OCC1</node1>
+      <node2>SMG1</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <link>
+      <node1>OCC1</node1>
+      <node2>SMG2</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <link>
+      <node1>OCC1</node1>
+      <node2>SGS1</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- ==================== 卫星通信 ==================== -->
+    
+    <link>
+      <node1>GEO1</node1>
+      <node2>SGS1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>HIBS1</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>HIBS2</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>HIBS3</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>IPB1</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>IPB2</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>USV1</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>USV5</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <link>
+      <node1>USV7</node1>
+      <node2>GEO1</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <!-- ==================== 4G/5G通信 ==================== -->
+    
+    <link>
+      <node1>HIBS1</node1>
+      <node2>MBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>HIBS2</node1>
+      <node2>MBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>HIBS3</node1>
+      <node2>MBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>UAV1</node1>
+      <node2>HIBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>UAV2</node1>
+      <node2>HIBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>UAV3</node1>
+      <node2>HIBS2</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>UAV4</node1>
+      <node2>MBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>UAV5</node1>
+      <node2>HIBS3</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>IPB1</node1>
+      <node2>MBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>IPB2</node1>
+      <node2>MBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>BYO1</node1>
+      <node2>HIBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>BYO2</node1>
+      <node2>HIBS1</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>BYO3</node1>
+      <node2>HIBS2</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <link>
+      <node1>BYO4</node1>
+      <node2>HIBS2</node2>
+      <commType>4G/5G</commType>
+    </link>
+    
+    <!-- ==================== Mesh通信 ==================== -->
+    
+    <link>
+      <node1>BYO1</node1>
+      <node2>SMG1</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>BYO2</node1>
+      <node2>SMG1</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>BYO3</node1>
+      <node2>SMG2</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>BYO4</node1>
+      <node2>SMG1</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>BYO5</node1>
+      <node2>SMG2</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>IPB1</node1>
+      <node2>SMG1</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>IPB2</node1>
+      <node2>SMG2</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>UAV1</node1>
+      <node2>UAV2</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>UAV2</node1>
+      <node2>UAV3</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>UAV3</node1>
+      <node2>UAV4</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>UAV4</node1>
+      <node2>UAV5</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>UAV5</node1>
+      <node2>UAV6</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>UAV6</node1>
+      <node2>UAV7</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV1</node1>
+      <node2>USV2</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV2</node1>
+      <node2>USV3</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV3</node1>
+      <node2>USV4</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV5</node1>
+      <node2>USV6</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV6</node1>
+      <node2>USV7</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV1</node1>
+      <node2>BYO1</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV2</node1>
+      <node2>BYO2</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV4</node1>
+      <node2>BYO4</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <link>
+      <node1>USV5</node1>
+      <node2>BYO5</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <!-- ==================== 水声通信 ==================== -->
+    
+    <link>
+      <node1>AUV1</node1>
+      <node2>AUV2</node2>
+      <commType>Underwater</commType>
+    </link>
+    
+    <link>
+      <node1>AUV2</node1>
+      <node2>AUV3</node2>
+      <commType>Underwater</commType>
+    </link>
+    
+    <link>
+      <node1>AUV1</node1>
+      <node2>AUV3</node2>
+      <commType>Underwater</commType>
+    </link>
+    
+    <link>
+      <node1>AUV1</node1>
+      <node2>BYO1</node2>
+      <commType>Underwater</commType>
+    </link>
+    
+    <link>
+      <node1>AUV2</node1>
+      <node2>BYO2</node2>
+      <commType>Underwater</commType>
+    </link>
+    
+    <link>
+      <node1>AUV3</node1>
+      <node2>BYO3</node2>
+      <commType>Underwater</commType>
+    </link>
+    
+  </links>
+</performance>

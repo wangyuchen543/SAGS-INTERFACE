@@ -1,0 +1,369 @@
+/* 🌌 深蓝科技感弹窗统一样式 */
+
+/* 弹窗遮罩层 */
+.tech-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(0, 20, 40, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  animation: techOverlayFadeIn 0.4s ease;
+}
+
+@keyframes techOverlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* 弹窗容器 */
+.tech-dialog-container {
+  background: linear-gradient(135deg, #0a1628 0%, #0d1b2a 50%, #1b263b 100%);
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #00eaff 0%, #0066ff 50%, #00eaff 100%) 1;
+  border-radius: 16px;
+  box-shadow: 
+    0 0 40px rgba(0, 234, 255, 0.4),
+    0 0 80px rgba(0, 102, 255, 0.3),
+    inset 0 0 60px rgba(0, 234, 255, 0.05);
+  width: 500px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: techDialogSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+/* 弹窗容器发光边框动画 */
+.tech-dialog-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00eaff, #0066ff, #00eaff, #0066ff);
+  background-size: 400% 400%;
+  border-radius: 16px;
+  z-index: -1;
+  animation: techBorderGlow 3s ease infinite;
+  opacity: 0.6;
+}
+
+@keyframes techBorderGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes techDialogSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 弹窗头部 */
+.tech-dialog-header {
+  background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+  border-bottom: 2px solid rgba(0, 234, 255, 0.5);
+  color: #00eaff;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 30px rgba(0, 234, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 头部扫描线动画 */
+.tech-dialog-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 234, 255, 0.2), transparent);
+  animation: techScanLine 3s ease infinite;
+}
+
+@keyframes techScanLine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.tech-dialog-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 
+    0 0 10px rgba(0, 234, 255, 0.8),
+    0 0 20px rgba(0, 234, 255, 0.6),
+    0 0 30px rgba(0, 102, 255, 0.4);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 关闭按钮 */
+.tech-close-btn {
+  background: rgba(0, 234, 255, 0.1);
+  border: 2px solid rgba(0, 234, 255, 0.4);
+  color: #00eaff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 15px rgba(0, 234, 255, 0.3);
+}
+
+.tech-close-btn:hover {
+  background: rgba(0, 234, 255, 0.2);
+  border-color: #00eaff;
+  box-shadow: 
+    0 0 25px rgba(0, 234, 255, 0.6),
+    inset 0 0 15px rgba(0, 234, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.tech-close-btn:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+/* 弹窗内容 */
+.tech-dialog-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(13, 27, 42, 0.8) 0%, rgba(10, 22, 40, 0.9) 100%);
+}
+
+/* 自定义滚动条 */
+.tech-dialog-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.tech-dialog-content::-webkit-scrollbar-track {
+  background: rgba(0, 20, 40, 0.5);
+  border-radius: 10px;
+}
+
+.tech-dialog-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00eaff 0%, #0066ff 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+}
+
+.tech-dialog-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00ff88 0%, #00eaff 100%);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+}
+
+/* 弹窗底部 */
+.tech-dialog-footer {
+  padding: 18px 24px;
+  border-top: 2px solid rgba(0, 234, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 31, 63, 0.8) 0%, rgba(0, 51, 102, 0.6) 100%);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* 科技感按钮 */
+.tech-btn {
+  min-width: 100px;
+  height: 42px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 2px solid rgba(0, 234, 255, 0.5);
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.3) 0%, rgba(0, 234, 255, 0.2) 100%);
+  color: #00eaff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 0 15px rgba(0, 234, 255, 0.3),
+    inset 0 0 15px rgba(0, 234, 255, 0.1);
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.6);
+}
+
+.tech-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(0, 234, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.tech-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.tech-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 234, 255, 0.4) 0%, rgba(0, 102, 255, 0.3) 100%);
+  border-color: #00eaff;
+  box-shadow: 
+    0 0 25px rgba(0, 234, 255, 0.6),
+    inset 0 0 20px rgba(0, 234, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.tech-btn:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 0 15px rgba(0, 234, 255, 0.4),
+    inset 0 0 15px rgba(0, 234, 255, 0.3);
+}
+
+/* 主要按钮（橙色） */
+.tech-btn-primary {
+  border-color: rgba(255, 165, 0, 0.6);
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.3) 0%, rgba(255, 165, 0, 0.2) 100%);
+  color: #ffa500;
+  box-shadow: 
+    0 0 15px rgba(255, 165, 0, 0.4),
+    inset 0 0 15px rgba(255, 165, 0, 0.1);
+  text-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
+}
+
+.tech-btn-primary::before {
+  background: rgba(255, 165, 0, 0.4);
+}
+
+.tech-btn-primary:hover {
+  background: linear-gradient(135deg, rgba(255, 165, 0, 0.4) 0%, rgba(255, 140, 0, 0.3) 100%);
+  border-color: #ffa500;
+  box-shadow: 
+    0 0 25px rgba(255, 165, 0, 0.6),
+    inset 0 0 20px rgba(255, 165, 0, 0.2);
+}
+
+/* Element Plus 表单样式优化 */
+.tech-dialog-content :deep(.el-form-item__label) {
+  color: #8ab4f8;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(138, 180, 248, 0.4);
+}
+
+.tech-dialog-content :deep(.el-input__wrapper) {
+  background: rgba(0, 20, 40, 0.6);
+  border: 1px solid rgba(0, 234, 255, 0.3);
+  box-shadow: 
+    0 0 10px rgba(0, 234, 255, 0.2),
+    inset 0 0 10px rgba(0, 234, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.tech-dialog-content :deep(.el-input__wrapper:hover) {
+  border-color: rgba(0, 234, 255, 0.5);
+  box-shadow: 
+    0 0 15px rgba(0, 234, 255, 0.3),
+    inset 0 0 15px rgba(0, 234, 255, 0.1);
+}
+
+.tech-dialog-content :deep(.el-input__wrapper.is-focus) {
+  border-color: #00eaff;
+  box-shadow: 
+    0 0 20px rgba(0, 234, 255, 0.5),
+    inset 0 0 20px rgba(0, 234, 255, 0.15);
+}
+
+.tech-dialog-content :deep(.el-input__inner) {
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.tech-dialog-content :deep(.el-select .el-input__wrapper) {
+  background: rgba(0, 20, 40, 0.6);
+}
+
+.tech-dialog-content :deep(.el-switch.is-checked .el-switch__core) {
+  background-color: #00eaff;
+  box-shadow: 0 0 15px rgba(0, 234, 255, 0.6);
+}
+
+.tech-dialog-content :deep(.el-date-editor) {
+  width: 100%;
+}
+
+/* 子弹窗样式（更高层级） */
+.tech-sub-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(0, 30, 60, 0.97) 0%, rgba(0, 0, 0, 0.99) 100%);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3100;
+  animation: techOverlayFadeIn 0.3s ease;
+}
+
+.tech-sub-dialog-container {
+  background: linear-gradient(135deg, #0a1628 0%, #0d1b2a 50%, #1b263b 100%);
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #00eaff 0%, #0066ff 50%, #00eaff 100%) 1;
+  border-radius: 16px;
+  box-shadow: 
+    0 0 50px rgba(0, 234, 255, 0.5),
+    0 0 100px rgba(0, 102, 255, 0.4),
+    inset 0 0 70px rgba(0, 234, 255, 0.08);
+  width: 450px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: techDialogSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.tech-sub-dialog-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00eaff, #0066ff, #00eaff, #0066ff);
+  background-size: 400% 400%;
+  border-radius: 16px;
+  z-index: -1;
+  animation: techBorderGlow 2.5s ease infinite;
+  opacity: 0.7;
+}
+
+

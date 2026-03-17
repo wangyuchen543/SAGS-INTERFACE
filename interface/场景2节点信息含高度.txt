@@ -1,0 +1,261 @@
+[
+    {
+        "modelName": "GEO卫星",
+        "modelId": 811,
+        "longitude": 123.283715,
+        "latitude": 31.776179,
+        "height": 20000000
+    },
+   {
+        "modelName": "卫星地面站",
+        "modelId": 772,
+        "longitude": 122.314937,
+        "latitude": 29.950985,
+        "height": 0
+    },
+    {
+        "modelName": "控制中心 (OCC)",
+        "modelId": 773,
+        "longitude": 122.25964,
+        "latitude": 30.023211,
+        "height": 0
+    },
+    {
+        "modelName": "巡逻车 (PV)",
+        "modelId": 775,
+        "longitude": 122.382741,
+        "latitude": 29.857151,
+        "height": 0
+    },
+    {
+        "modelName": "宏基站 (MBS)",
+        "modelId": 776,
+        "longitude": 122.378548,
+        "latitude": 29.916553,
+        "height": 50
+    },
+    {
+        "modelName": "岸基mesh网关 (SMG1)",
+        "modelId": 778,
+        "longitude": 122.403379,
+        "latitude": 29.845698,
+        "height": 20
+    },
+    {
+        "modelName": "岸基mesh网关 (SMG2)",
+        "modelId": 779,
+        "longitude": 122.453243,
+        "latitude": 29.949758,
+        "height": 20
+    },
+    {
+        "modelName": "海上浮标1",
+        "modelId": 780,
+        "longitude": 122.665816,
+        "latitude": 29.621194,
+        "height": 2
+    },
+    {
+        "modelName": "海上浮标2",
+        "modelId": 781,
+        "longitude": 122.745147,
+        "latitude": 29.725836,
+        "height": 2
+    },
+    {
+        "modelName": "海上浮标3",
+        "modelId": 782,
+        "longitude": 122.640241,
+        "latitude": 30.040307,
+        "height": 2
+    },
+    {
+        "modelName": "海上浮标4",
+        "modelId": 783,
+        "longitude": 122.609535,
+        "latitude": 29.773754,
+        "height": 2
+    },
+    {
+        "modelName": "海上浮标5",
+        "modelId": 784,
+        "longitude": 122.634049,
+        "latitude": 29.897742,
+        "height": 2
+    },
+    {
+        "modelName": "海上浮标6",
+        "modelId": 785,
+        "longitude": 122.812861,
+        "latitude": 30.03595,
+        "height": 2
+    },
+    {
+        "modelName": "海上浮标7",
+        "modelId": 786,
+        "longitude": 122.547821,
+        "latitude": 29.706163,
+        "height": 2
+    },
+    {
+        "modelName": "海上浮标8",
+        "modelId": 812,
+        "longitude": 122.780131,
+        "latitude": 29.85447,
+        "height": 2
+    },
+    {
+        "modelName": "水下航行器 (AUV1)",
+        "modelId": 787,
+        "longitude": 122.864988,
+        "latitude": 29.759128,
+        "height": -50
+    },
+    {
+        "modelName": "水下航行器 (AUV2)",
+        "modelId": 788,
+        "longitude": 122.771701,
+        "latitude": 29.678147,
+        "height": -50
+    },
+    {
+        "modelName": "水下航行器 (AUV3)",
+        "modelId": 789,
+        "longitude": 122.731872,
+        "latitude": 29.819049,
+        "height": -50
+    },
+    {
+        "modelName": "无人艇 (USV1)",
+        "modelId": 790,
+        "longitude": 122.967043,
+        "latitude": 29.690207,
+        "height": 3
+    },
+    {
+        "modelName": "无人艇 (USV2)",
+        "modelId": 791,
+        "longitude": 122.971741,
+        "latitude": 29.742249,
+        "height": 3
+    },
+    {
+        "modelName": "无人艇 (USV3)",
+        "modelId": 792,
+        "longitude": 123.02699,
+        "latitude": 29.717929,
+        "height": 3
+    },
+    {
+        "modelName": "无人艇 (USV4)",
+        "modelId": 793,
+        "longitude": 123.239808,
+        "latitude": 29.73202,
+        "height": 3
+    },
+    {
+        "modelName": "无人艇 (USV5)",
+        "modelId": 794,
+        "longitude": 123.406732,
+        "latitude": 29.686507,
+        "height": 3
+    },
+    {
+        "modelName": "无人艇 (USV6)",
+        "modelId": 795,
+        "longitude": 123.350826,
+        "latitude": 29.713709,
+        "height": 3
+    },
+    {
+        "modelName": "无人艇 (USV7)",
+        "modelId": 806,
+        "longitude": 123.344825,
+        "latitude": 29.661986,
+        "height": 3
+    },
+    {
+        "modelName": "无人机 (UAV1)",
+        "modelId": 798,
+        "longitude": 122.971921,
+        "latitude": 29.997445,
+        "height": 200
+    },
+    {
+        "modelName": "无人机 (UAV2)",
+        "modelId": 799,
+        "longitude": 123.322458,
+        "latitude": 29.949269,
+        "height": 200
+    },
+    {
+        "modelName": "无人机 (UAV3)",
+        "modelId": 800,
+        "longitude": 122.933483,
+        "latitude": 29.971557,
+        "height": 200
+    },
+    {
+        "modelName": "无人机 (UAV4)",
+        "modelId": 801,
+        "longitude": 123.382591,
+        "latitude": 29.977381,
+        "height": 200
+    },
+    {
+        "modelName": "无人机 (UAV5)",
+        "modelId": 802,
+        "longitude": 123.337814,
+        "latitude": 30.017484,
+        "height": 200
+    },
+    {
+        "modelName": "无人机 (UAV6)",
+        "modelId": 803,
+        "longitude": 122.932584,
+        "latitude": 30.032733,
+        "height": 200
+    },
+    {
+        "modelName": "无人机 (UAV7)",
+        "modelId": 804,
+        "longitude": 123.147343,
+        "latitude": 29.994988,
+        "height": 200
+    },
+    {
+        "modelName": "海上作业平台 (OP1)",
+        "modelId": 805,
+        "longitude": 123.423689,
+        "latitude": 29.769203,
+        "height": 20
+    },
+    {
+        "modelName": "海上作业平台 (OP2)",
+        "modelId": 813,
+        "longitude": 122.954897,
+        "latitude": 29.827673,
+        "height": 20
+    },
+    {
+        "modelName": "浮空基站 (HIBS1)",
+        "modelId": 807,
+        "longitude": 122.634049,
+        "latitude": 29.750514,
+        "height": 20000
+    },
+    {
+        "modelName": "浮空基站 (HIBS2)",
+        "modelId": 808,
+        "longitude": 122.967868,
+        "latitude": 29.750514,
+        "height": 20000
+    },
+    {
+        "modelName": "浮空基站 (HIBS3)",
+        "modelId": 809,
+        "longitude": 123.322458,
+        "latitude": 29.759203,
+        "height": 20000
+    }
+]
