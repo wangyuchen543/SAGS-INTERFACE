@@ -279,6 +279,19 @@
       <node2>UAV9</node2>
       <commType>Wired</commType>
     </link>
+                     <!-- UAV15 ↔ UAV16 -->
+    <link>
+      <node1>UAV15</node1>
+      <node2>UAV16</node2>
+      <commType>Wired</commType>
+    </link>
+                         <!-- UAV11 ↔ UAV9 -->
+    <link>
+      <node1>UAV11</node1>
+      <node2>UAV9</node2>
+      <commType>Wired</commType>
+    </link>
+ 
 
   </links>
 </performance>

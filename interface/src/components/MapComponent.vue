@@ -591,12 +591,59 @@ const resetView = () => {
 
 // 全屏控制
 const toggleFullscreen = () => {
-  if (viewer && viewer.cesiumWidget) {
-  if (viewer.cesiumWidget.isFullscreen) {
-    viewer.cesiumWidget.exitFullscreen()
-  } else {
-    viewer.cesiumWidget.enterFullscreen()
+  console.log('🔍 尝试切换全屏模式')
+  
+  // 首先尝试Cesium的全屏API
+  if (viewer) {
+    try {
+      if (viewer.isFullscreen) {
+        console.log('📱 退出全屏')
+        viewer.exitFullscreen()
+      } else {
+        console.log('📱 进入全屏')
+        viewer.requestFullscreen()
+      }
+      return
+    } catch (error) {
+      console.warn('⚠️ Cesium全屏API失败:', error)
     }
+  }
+  
+  // 如果Cesium API失败，尝试使用原生全屏API
+  try {
+    const cesiumContainer = document.querySelector('.cesium-wrapper')
+    if (cesiumContainer) {
+      console.log('🔄 尝试使用原生全屏API')
+      if (!document.fullscreenElement) {
+        // 进入全屏
+        if (cesiumContainer.requestFullscreen) {
+          cesiumContainer.requestFullscreen()
+        } else if (cesiumContainer.mozRequestFullScreen) {
+          cesiumContainer.mozRequestFullScreen()
+        } else if (cesiumContainer.webkitRequestFullscreen) {
+          cesiumContainer.webkitRequestFullscreen()
+        } else if (cesiumContainer.msRequestFullscreen) {
+          cesiumContainer.msRequestFullscreen()
+        }
+        console.log('✅ 成功进入全屏')
+      } else {
+        // 退出全屏
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen()
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen()
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen()
+        }
+        console.log('✅ 成功退出全屏')
+      }
+    } else {
+      console.error('❌ 找不到cesium-wrapper元素')
+    }
+  } catch (error) {
+    console.error('❌ 全屏操作失败:', error)
   }
 }
 
