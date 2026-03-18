@@ -118,19 +118,19 @@ export const mapConfig = {
     display: {
       // 空中节点
       UAV: {
-        minimumPixelSize: 64,
+        minimumPixelSize: 48,
         maximumScale: 10000,
-        scale: 50.0
+        scale: 30.0
       },
       'A-UAV': {
-        minimumPixelSize: 70,
+        minimumPixelSize: 56,
         maximumScale: 12000,
-        scale: 55.0
+        scale: 35.0
       },
       'B-UAV': {
-        minimumPixelSize: 75,
+        minimumPixelSize: 60,
         maximumScale: 13000,
-        scale: 60.0
+        scale: 40.0
       },
       HIBS: {
         minimumPixelSize: 30,
