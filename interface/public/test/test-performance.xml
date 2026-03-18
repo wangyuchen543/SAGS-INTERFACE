@@ -46,361 +46,239 @@
   <!-- 节点之间的通信连接关系 -->
   <links>
     
-    <!-- ==================== 有线连接 ==================== -->
+    <!-- ==================== 卫星通信 (HIBS) ==================== -->
     
-    <!-- 控制中心 ↔ 岸基设备 -->
-    <link>
-      <node1>OCC1</node1>
-      <node2>MBS1</node2>
-      <commType>Wired</commType>
-    </link>
-    
-    <link>
-      <node1>OCC1</node1>
-      <node2>SMG1</node2>
-      <commType>Wired</commType>
-    </link>
-    
-    <link>
-      <node1>OCC1</node1>
-      <node2>SMG2</node2>
-      <commType>Wired</commType>
-    </link>
-    
-    <link>
-      <node1>OCC1</node1>
-      <node2>SGS1</node2>
-      <commType>Wired</commType>
-    </link>
-    
-    <!-- ==================== 卫星通信 ==================== -->
-    
-    <!-- GEO卫星 ↔ 卫星地面站 -->
-    <link>
-      <node1>GEO1</node1>
-      <node2>SGS1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <!-- 浮空基站 ↔ GEO卫星 -->
+    <!-- HIBS1 ↔ HIBS2 -->
     <link>
       <node1>HIBS1</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <link>
-      <node1>HIBS2</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <link>
-      <node1>HIBS3</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <!-- 海上作业平台 ↔ GEO卫星 -->
-    <link>
-      <node1>IPB1</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <link>
-      <node1>IPB2</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <!-- USV ↔ GEO卫星 -->
-    <link>
-      <node1>USV1</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <link>
-      <node1>USV5</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <link>
-      <node1>USV7</node1>
-      <node2>GEO1</node2>
-      <commType>Satellite</commType>
-    </link>
-    
-    <!-- ==================== 4G/5G通信 ==================== -->
-    
-    <!-- 浮空基站 ↔ 岸基5G基站 -->
-    <link>
-      <node1>HIBS1</node1>
-      <node2>MBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <link>
-      <node1>HIBS2</node1>
-      <node2>MBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <link>
-      <node1>HIBS3</node1>
-      <node2>MBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <!-- 无人机 ↔ 浮空基站/5G基站 -->
-    <link>
-      <node1>UAV1</node1>
-      <node2>HIBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <link>
-      <node1>UAV2</node1>
-      <node2>HIBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <link>
-      <node1>UAV3</node1>
       <node2>HIBS2</node2>
-      <commType>4G/5G</commType>
+      <commType>Satellite</commType>
     </link>
     
+    <!-- HIBS2 ↔ HIBS3 -->
     <link>
-      <node1>UAV4</node1>
-      <node2>MBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <link>
-      <node1>UAV5</node1>
+      <node1>HIBS2</node1>
       <node2>HIBS3</node2>
-      <commType>4G/5G</commType>
+      <commType>Satellite</commType>
     </link>
     
-    <!-- 海上作业平台 ↔ 岸基5G基站 -->
+    <!-- HIBS3 ↔ HIBS4 -->
     <link>
-      <node1>IPB1</node1>
-      <node2>MBS1</node2>
-      <commType>4G/5G</commType>
+      <node1>HIBS3</node1>
+      <node2>HIBS4</node2>
+      <commType>Satellite</commType>
     </link>
     
-    <link>
-      <node1>IPB2</node1>
-      <node2>MBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
+ 
     
-    <!-- 浮标 ↔ 浮空基站 -->
-    <link>
-      <node1>BYO1</node1>
-      <node2>HIBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
+    <!-- ==================== Mesh通信 (普通无人机1-4) ==================== -->
     
-    <link>
-      <node1>BYO2</node1>
-      <node2>HIBS1</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <link>
-      <node1>BYO3</node1>
-      <node2>HIBS2</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <link>
-      <node1>BYO4</node1>
-      <node2>HIBS2</node2>
-      <commType>4G/5G</commType>
-    </link>
-    
-    <!-- ==================== Mesh通信 ==================== -->
-    
-    <!-- 浮标 ↔ Mesh网关 -->
-    <link>
-      <node1>BYO1</node1>
-      <node2>SMG1</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <link>
-      <node1>BYO2</node1>
-      <node2>SMG1</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <link>
-      <node1>BYO3</node1>
-      <node2>SMG2</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <link>
-      <node1>BYO4</node1>
-      <node2>SMG1</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <link>
-      <node1>BYO5</node1>
-      <node2>SMG2</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <!-- 海上作业平台 ↔ Mesh网关 -->
-    <link>
-      <node1>IPB1</node1>
-      <node2>SMG1</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <link>
-      <node1>IPB2</node1>
-      <node2>SMG2</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <!-- UAV ↔ UAV (Mesh) -->
+    <!-- UAV1 ↔ UAV2 -->
     <link>
       <node1>UAV1</node1>
       <node2>UAV2</node2>
       <commType>Mesh</commType>
     </link>
     
+    <!-- UAV2 ↔ UAV3 -->
     <link>
       <node1>UAV2</node1>
       <node2>UAV3</node2>
       <commType>Mesh</commType>
     </link>
     
+    <!-- UAV3 ↔ UAV4 -->
     <link>
       <node1>UAV3</node1>
       <node2>UAV4</node2>
       <commType>Mesh</commType>
     </link>
     
+ 
+    
+    <!-- ==================== 4G通信 (A-UAV) ==================== -->
+    
+    <!-- A-UAV1 ↔ A-UAV2 -->
     <link>
-      <node1>UAV4</node1>
-      <node2>UAV5</node2>
-      <commType>Mesh</commType>
+      <node1>A-UAV1</node1>
+      <node2>A-UAV2</node2>
+      <commType>4G</commType>
     </link>
     
+    <!-- A-UAV2 ↔ A-UAV3 -->
+    <link>
+      <node1>A-UAV2</node1>
+      <node2>A-UAV3</node2>
+      <commType>4G</commType>
+    </link>
+    
+    <!-- A-UAV3 ↔ A-UAV4 -->
+    <link>
+      <node1>A-UAV3</node1>
+      <node2>A-UAV4</node2>
+      <commType>4G</commType>
+    </link>
+    
+    
+    
+    <!-- ==================== 5G通信 (B-UAV) ==================== -->
+    
+    <!-- B-UAV1 ↔ B-UAV2 -->
+    <link>
+      <node1>B-UAV1</node1>
+      <node2>B-UAV2</node2>
+      <commType>5G</commType>
+    </link>
+    
+    <!-- B-UAV2 ↔ B-UAV3 -->
+    <link>
+      <node1>B-UAV2</node1>
+      <node2>B-UAV3</node2>
+      <commType>5G</commType>
+    </link>
+    
+    <!-- B-UAV3 ↔ B-UAV4 -->
+    <link>
+      <node1>B-UAV3</node1>
+      <node2>B-UAV4</node2>
+      <commType>5G</commType>
+    </link>
+    
+ 
+    
+    <!-- ==================== 有线通信 (其他普通无人机) ==================== -->
+    
+    <!-- UAV5 ↔ UAV6 -->
     <link>
       <node1>UAV5</node1>
       <node2>UAV6</node2>
-      <commType>Mesh</commType>
+      <commType>Wired</commType>
     </link>
     
+    <!-- UAV6 ↔ UAV12 -->
     <link>
       <node1>UAV6</node1>
+      <node2>UAV12</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV12 ↔ UAV13 -->
+    <link>
+      <node1>UAV12</node1>
+      <node2>UAV13</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV12 ↔ UAV15 -->
+    <link>
+      <node1>UAV12</node1>
+      <node2>UAV15</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV15 ↔ UAV14 -->
+    <link>
+      <node1>UAV9</node1>
+      <node2>UAV10</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV18 ↔ UAV17 -->
+    <link>
+      <node1>UAV18</node1>
+      <node2>UAV17</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV17 ↔ UAV16 -->
+    <link>
+      <node1>UAV17</node1>
+      <node2>UAV16</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV14 ↔ UAV17 -->
+    <link>
+      <node1>UAV14</node1>
+      <node2>UAV17</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV16 ↔ UAV14 -->
+    <link>
+      <node1>UAV16</node1>
+      <node2>UAV14</node2>
+      <commType>Wired</commType>
+    </link>
+
+       <!-- B-UAV2 ↔ UAV15 -->
+    <link>
+      <node1>B-UAV2</node1>
+      <node2>UAV15</node2>
+      <commType>Wired</commType>
+    </link>
+         <!-- B-UAV2 ↔ UAV10 -->
+    <link>
+      <node1>B-UAV2</node1>
+      <node2>UAV10</node2>
+      <commType>Wired</commType>
+    </link>
+         <!-- B-UAV2 ↔ UAV7 -->
+    <link>
+      <node1>B-UAV2</node1>
       <node2>UAV7</node2>
-      <commType>Mesh</commType>
+      <commType>Wired</commType>
     </link>
-    
-    <!-- USV ↔ USV (Mesh) -->
+         <!-- UAV5 ↔ UAV7 -->
     <link>
-      <node1>USV1</node1>
-      <node2>USV2</node2>
-      <commType>Mesh</commType>
+      <node1>UAV5</node1>
+      <node2>UAV7</node2>
+      <commType>Wired</commType>
     </link>
     
+   
+       <!-- HIBS2 ↔ UAV18 -->
     <link>
-      <node1>USV2</node1>
-      <node2>USV3</node2>
-      <commType>Mesh</commType>
+      <node1>HIBS2</node1>
+      <node2>UAV18</node2>
+      <commType>Wired</commType>
     </link>
-    
+       <!-- UAV5 ↔ UAV2 -->
     <link>
-      <node1>USV3</node1>
-      <node2>USV4</node2>
-      <commType>Mesh</commType>
+      <node1>UAV5</node1>
+      <node2>UAV2</node2>
+      <commType>Wired</commType>
     </link>
-    
+           <!-- UAV9 ↔ A-UAV1 -->
     <link>
-      <node1>USV5</node1>
-      <node2>USV6</node2>
-      <commType>Mesh</commType>
+      <node1>UAV9</node1>
+      <node2>A-UAV1</node2>
+      <commType>Wired</commType>
     </link>
-    
+           <!-- UAV11 ↔ UAV9 -->
     <link>
-      <node1>USV6</node1>
-      <node2>USV7</node2>
-      <commType>Mesh</commType>
+      <node1>UA11</node1>
+      <node2>UAV9</node2>
+      <commType>Wired</commType>
     </link>
-    
-    <!-- USV ↔ 浮标 (Mesh) -->
+           <!-- UAV8 ↔ UAV9 -->
     <link>
-      <node1>USV1</node1>
-      <node2>BYO1</node2>
-      <commType>Mesh</commType>
+      <node1>UAV8</node1>
+      <node2>UAV9</node2>
+      <commType>Wired</commType>
     </link>
-    
+           <!-- UAV10 ↔ UAV8 -->
     <link>
-      <node1>USV2</node1>
-      <node2>BYO2</node2>
-      <commType>Mesh</commType>
+      <node1>UAV10</node1>
+      <node2>UAV8</node2>
+      <commType>Wired</commType>
     </link>
-    
+              <!-- UAV10 ↔ UAV8 -->
     <link>
-      <node1>USV4</node1>
-      <node2>BYO4</node2>
-      <commType>Mesh</commType>
+      <node1>UAV10</node1>
+      <node2>UAV9</node2>
+      <commType>Wired</commType>
     </link>
-    
-    <link>
-      <node1>USV5</node1>
-      <node2>BYO5</node2>
-      <commType>Mesh</commType>
-    </link>
-    
-    <!-- ==================== 水声通信 ==================== -->
-    
-    <!-- AUV ↔ AUV (Underwater) -->
-    <link>
-      <node1>AUV1</node1>
-      <node2>AUV2</node2>
-      <commType>Underwater</commType>
-    </link>
-    
-    <link>
-      <node1>AUV2</node1>
-      <node2>AUV3</node2>
-      <commType>Underwater</commType>
-    </link>
-    
-    <link>
-      <node1>AUV1</node1>
-      <node2>AUV3</node2>
-      <commType>Underwater</commType>
-    </link>
-    
-    <!-- AUV ↔ 浮标 -->
-    <link>
-      <node1>AUV1</node1>
-      <node2>BYO1</node2>
-      <commType>Underwater</commType>
-    </link>
-    
-    <link>
-      <node1>AUV2</node1>
-      <node2>BYO2</node2>
-      <commType>Underwater</commType>
-    </link>
-    
-    <link>
-      <node1>AUV3</node1>
-      <node2>BYO3</node2>
-      <commType>Underwater</commType>
-    </link>
-    
+
   </links>
 </performance>

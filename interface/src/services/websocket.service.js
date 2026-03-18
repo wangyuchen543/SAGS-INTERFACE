@@ -6,6 +6,14 @@
 import { ref, reactive } from 'vue'
 import { buildNodeConfigXML, parsePerformanceXML } from '../utils/websocket.xml.js'
 
+// 测试模式配置
+const testMode = true // 设置为true启用测试模式
+const testXmlFiles = [
+  '/test/test-performance.xml',
+  '/test/test-performance-20s.xml',
+  '/test/test-performance-complete.xml'
+]
+
 // WebSocket配置
 const wsConfig = reactive({
   host: 'localhost',      // 默认主机
@@ -72,6 +80,91 @@ const emit = (event, data) => {
 }
 
 /**
+ * 加载本地测试XML文件
+ * @param {String} filePath - XML文件路径
+ * @returns {Promise<String>}
+ */
+const loadTestXmlFile = (filePath) => {
+  return fetch(filePath)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      return response.text()
+    })
+    .catch(error => {
+      console.error('❌ 加载测试XML文件失败:', error)
+      throw error
+    })
+}
+
+/**
+ * 模拟WebSocket消息
+ * @param {String} xmlString - XML字符串
+ */
+const simulateWebSocketMessage = (xmlString) => {
+  console.log('📩 模拟收到WebSocket消息')
+  wsState.lastMessage = xmlString
+
+  // 解析性能数据XML
+  const performanceData = parsePerformanceXML(xmlString)
+  if (performanceData) {
+    console.log('✅ XML解析成功:', performanceData)
+    wsState.lastPerformanceData = performanceData
+    
+    // 存储仿真数据
+    wsState.simulationData.push(performanceData)
+    
+    // 检查是否完成
+    if (performanceData.status === 'complete') {
+      console.log('🎯 仿真完成，触发simulation-complete事件')
+      wsState.simulationComplete = true
+      emit('simulation-complete', wsState.simulationData)
+    } else {
+      console.log('📊 发送performance事件')
+      emit('performance', performanceData)
+    }
+  } else {
+    console.error('❌ XML解析失败')
+  }
+}
+
+/**
+ * 开始测试模式，加载并解析测试XML文件
+ */
+const startTestMode = async () => {
+  console.log('🧪 启动测试模式，加载本地XML文件...')
+  
+  // 标记为已连接状态
+  wsState.connected = true
+  wsState.connecting = false
+  wsState.error = null
+  
+  // 触发连接成功事件
+  emit('connected', { host: 'localhost', port: 50000 })
+  
+  // 依次加载并解析测试XML文件
+  for (let i = 0; i < testXmlFiles.length; i++) {
+    try {
+      console.log(`📁 加载测试文件: ${testXmlFiles[i]}`)
+      const xmlString = await loadTestXmlFile(testXmlFiles[i])
+      
+      // 模拟WebSocket消息
+      simulateWebSocketMessage(xmlString)
+      
+      // 等待一段时间再加载下一个文件
+      if (i < testXmlFiles.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 2000))
+      }
+    } catch (error) {
+      console.error('❌ 处理测试文件失败:', error)
+    }
+  }
+  
+  console.log('✅ 测试模式完成，所有XML文件已处理')
+}
+
+/**
  * 连接WebSocket
  * @param {String} host - 主机地址
  * @param {Number} port - 端口号
@@ -79,6 +172,13 @@ const emit = (event, data) => {
  */
 export const connectWebSocket = (host = wsConfig.host, port = wsConfig.port) => {
   return new Promise((resolve, reject) => {
+    if (testMode) {
+      console.log('🧪 启用测试模式，使用本地XML文件')
+      startTestMode()
+      resolve(true)
+      return
+    }
+
     if (wsState.connected) {
       console.log('⚠️ WebSocket已连接')
       resolve(true)
@@ -181,6 +281,18 @@ export const disconnectWebSocket = () => {
  * @returns {Boolean} 是否发送成功
  */
 export const sendNodeConfig = (nodes, waypointsMap) => {
+  if (testMode) {
+    console.log('🧪 测试模式：模拟发送节点配置XML')
+    try {
+      const xml = buildNodeConfigXML(nodes, waypointsMap)
+      console.log('📤 模拟发送节点配置XML:', xml)
+      return true
+    } catch (error) {
+      console.error('❌ 构建XML失败:', error)
+      return false
+    }
+  }
+
   if (!wsState.connected || !ws) {
     console.error('❌ WebSocket未连接，无法发送数据')
     return false
@@ -203,6 +315,12 @@ export const sendNodeConfig = (nodes, waypointsMap) => {
  * @returns {Boolean} 是否发送成功
  */
 export const sendXML = (xmlString) => {
+  if (testMode) {
+    console.log('🧪 测试模式：模拟发送XML消息')
+    console.log('📤 模拟发送XML消息:', xmlString)
+    return true
+  }
+
   if (!wsState.connected || !ws) {
     console.error('❌ WebSocket未连接，无法发送数据')
     return false

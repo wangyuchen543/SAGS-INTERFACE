@@ -463,6 +463,15 @@ const createConnectionLines = () => {
       clampToGround: false
     }
     
+    // 如果配置了虚线样式，应用虚线
+    if (commConfig.dash) {
+      polylineOptions.material = new Cesium.PolylineDashMaterialProperty({
+        color: color,
+        dashLength: commConfig.dash[0],
+        gapLength: commConfig.dash[1]
+      })
+    }
+    
     // 如果是水声通信，添加深度偏移以确保可见
     if (link.commType === 'Underwater') {
       polylineOptions.depthFailMaterial = color  // 即使被遮挡也显示

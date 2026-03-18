@@ -80,7 +80,8 @@ export const nodeTypes = {
     color: '#FF00FF',
     icon: '/icons/UAV.png',
     defaultAlt: 500,
-    availableComms: ['4G/5G', 'Mesh']
+    availableComms: ['Wired', 'Mesh'],
+    static: false
   },
   USV: {
     label: 'Unmanned Surface Vehicle',
@@ -96,7 +97,8 @@ export const nodeTypes = {
     color: '#AA6600',
     icon: '/icons/AUV.png',
     defaultAlt: 0,
-    availableComms: ['4G/5G']
+    availableComms: ['4G/5G'],
+    static: true
   },
   HIBS: {
     label: 'High-Altitude Platform Station',
@@ -104,7 +106,8 @@ export const nodeTypes = {
     color: '#FF5500',
     icon: '/icons/HIPS.png',
     defaultAlt: 20000,
-    availableComms: ['4G/5G', 'Satellite']
+    availableComms: ['Wired', 'Satellite'],
+    static: true
   },
   AUV: {
     label: 'Unmanned Underwater Vehicle',
@@ -120,7 +123,8 @@ export const nodeTypes = {
     color: '#FF6600',
     icon: '/icons/UAV.png',
     defaultAlt: 600,
-    availableComms: ['4G/5G', 'Mesh', 'Satellite']
+    availableComms: ['Wired', '4G'],
+    static: true
   },
   'B-UAV': {
     label: 'Battle Unmanned Aerial Vehicle',
@@ -128,7 +132,8 @@ export const nodeTypes = {
     color: '#FF0066',
     icon: '/icons/UAV.png',
     defaultAlt: 700,
-    availableComms: ['4G/5G', 'Mesh', 'Satellite']
+    availableComms: ['Wired', '5G'],
+    static: true
   }
 }
 
@@ -139,8 +144,9 @@ export const commTypes = {
   Wired: {
     label: 'Wired Communication',
     labelCN: '有线通信',
-    color: '#888888',
-    width: 3
+    color: '#FF0000',
+    width: 3,
+    dash: [5, 5]
   },
   '4G/5G': {
     label: '4G/5G',
