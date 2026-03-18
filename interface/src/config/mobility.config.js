@@ -11,6 +11,8 @@ export const regionBounds = {
     AUV: { min: -100, max: -20 },     // 水下航行器
     USV: { min: 0, max: 5 },          // 无人艇
     UAV: { min: 100, max: 500 },      // 无人机
+    'A-UAV': { min: 400, max: 800 },   // 高级无人机
+    'B-UAV': { min: 500, max: 900 },   // 战斗无人机
     PV: { min: 0, max: 0 }            // 巡逻车（地面）
   }
 }
@@ -39,6 +41,20 @@ export const mobilityParams = {
       waypointInterval: 30,
       minWaypointDistance: 1000,
       maxWaypointDistance: 8000
+    },
+    'A-UAV': {
+      speed: { min: 200, max: 400 },         // 速度范围 m/s (提升10倍)
+      pauseTime: { min: 1, max: 3 },         // 停留时间 秒
+      waypointInterval: 25,
+      minWaypointDistance: 1200,
+      maxWaypointDistance: 10000
+    },
+    'B-UAV': {
+      speed: { min: 250, max: 500 },         // 速度范围 m/s (提升10倍)
+      pauseTime: { min: 0.5, max: 2 },       // 停留时间 秒
+      waypointInterval: 20,
+      minWaypointDistance: 1500,
+      maxWaypointDistance: 12000
     },
     PV: {
       speed: { min: 100, max: 250 },         // 速度范围 m/s (提升10倍)

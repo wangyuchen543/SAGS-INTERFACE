@@ -54,6 +54,12 @@ export const mapConfig = {
       // 🛩️ 无人机
       UAV: '/models/UAV.glb',
       
+      // 🚀 A-无人机
+      'A-UAV': '/models/A-UAV.glb',
+      
+      // ⚔️ B-无人机
+      'B-UAV': '/models/B-UAV.glb',
+      
       // 🚢 水面无人艇
       USV: '/models/USV.glb',
       
@@ -95,7 +101,7 @@ export const mapConfig = {
       // 📡 雷达监测站点
       RDR: '/models/MBS.glb',
       
-      // 🚗 巡逻车
+      // 🚀 导弹发射车
       PV: '/models/PV.glb',
       
       // 🛰️ GEO卫星
@@ -115,6 +121,16 @@ export const mapConfig = {
         minimumPixelSize: 64,
         maximumScale: 10000,
         scale: 50.0
+      },
+      'A-UAV': {
+        minimumPixelSize: 70,
+        maximumScale: 12000,
+        scale: 55.0
+      },
+      'B-UAV': {
+        minimumPixelSize: 75,
+        maximumScale: 13000,
+        scale: 60.0
       },
       HIBS: {
         minimumPixelSize: 30,
@@ -183,6 +199,7 @@ export const mapConfig = {
         maximumScale: 16000,
         scale: 65.0
       },
+      // 🚀 导弹发射车
       PV: {
         minimumPixelSize: 40,
         maximumScale: 12000,

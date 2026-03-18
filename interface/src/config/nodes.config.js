@@ -91,8 +91,8 @@ export const nodeTypes = {
     availableComms: ['Satellite', 'Mesh']
   },
   PV: {
-    label: 'Patrol Vehicle',
-    labelCN: '巡逻车',
+    label: 'Missile Launch Vehicle',
+    labelCN: '导弹发射车',
     color: '#AA6600',
     icon: '/icons/AUV.png',
     defaultAlt: 0,
@@ -113,6 +113,22 @@ export const nodeTypes = {
     icon: '/icons/AUV.png',
     defaultAlt: -50,
     availableComms: ['Underwater']
+  },
+  'A-UAV': {
+    label: 'Advanced Unmanned Aerial Vehicle',
+    labelCN: 'A-无人机',
+    color: '#FF6600',
+    icon: '/icons/UAV.png',
+    defaultAlt: 600,
+    availableComms: ['4G/5G', 'Mesh', 'Satellite']
+  },
+  'B-UAV': {
+    label: 'Battle Unmanned Aerial Vehicle',
+    labelCN: 'B-无人机',
+    color: '#FF0066',
+    icon: '/icons/UAV.png',
+    defaultAlt: 700,
+    availableComms: ['4G/5G', 'Mesh', 'Satellite']
   }
 }
 
