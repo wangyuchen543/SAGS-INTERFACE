@@ -30,8 +30,8 @@ export const mapConfig = {
   // 相机初始配置
   camera: {
     position: {
-      lng: 122.8,
-      lat: 29.85,
+      lng: 87.3, // 86-89度的中间
+      lat: 32.6, // 34-37度的中间
       height: 30000
     },
     orientation: {
@@ -256,7 +256,7 @@ export const mapConfig = {
   
   // 旧配置（保持兼容性）
   initial: {
-    center: [122.8, 27.1],
+    center: [87.3, 32.6], // 86-89度经度，34-37度纬度的中间
     zoom: 2,
     minZoom: 1,
     maxZoom: 18,
@@ -286,7 +286,7 @@ export const mapConfig = {
     scale: true,
     attribution: true,
     terrain: true,
-    animation: true,
+    animation: false,
     reset: true
   },
   

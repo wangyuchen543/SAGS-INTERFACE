@@ -103,8 +103,8 @@ const initCesiumMap = () => {
     homeButton: false,
     sceneModePicker: false,
     navigationHelpButton: false,
-    animation: true, // ✅ 启用动画控制器（节点移动需要）
-    timeline: true,  // ✅ 启用时间轴（节点移动需要）
+    animation: false, // ❌ 隐藏动画控制器
+    timeline: false,  // ❌ 隐藏时间轴
     fullscreenButton: false,
       vrButton: false,
       infoBox: true, // 启用InfoBox（显示节点详细信息）
