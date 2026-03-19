@@ -180,7 +180,7 @@ export const initialNodesData = [
   {
     name: 'UAV13',
     type: 'UAV',
-    lat: 35.12,
+    lat: 35.15,
     lng: 115.95,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
