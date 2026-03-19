@@ -404,13 +404,36 @@ const handlePerformanceData = (performanceData) => {
 const handleSimulationComplete = (simulationData) => {
   console.log('🎯 App收到仿真完成事件，数据量:', simulationData.length)
   
-  // 获取最后一组数据的连接关系
+  // 获取最后一组数据的连接关系和节点损毁
   if (simulationData.length > 0) {
     const lastData = simulationData[simulationData.length - 1]
     if (lastData.links) {
       links.value = lastData.links
       console.log('🔗 连接关系已更新，连接数:', links.value.length)
     }
+    
+    // 处理节点损毁
+    const simulationTime = lastData.simulationTime || 0
+    const initialNodes = getInitialNodes()
+    
+    // 定义节点损毁时间配置
+    const nodeDestroyTime = {
+      'UAV16': 30,
+      'UAV9': 30,
+      'A-UAV2': 40
+    }
+    
+    // 过滤节点：排除已损毁的节点
+    nodes.value = initialNodes.filter(node => {
+      const destroyTime = nodeDestroyTime[node.name]
+      if (destroyTime && simulationTime >= destroyTime) {
+        console.log(`💥 节点 ${node.name} 在 ${simulationTime}秒时损毁！`)
+        return false
+      }
+      return true
+    })
+    
+    console.log(`✅ 当前显示 ${nodes.value.length} 个节点（仿真时间: ${simulationTime}秒）`)
   }
 }
 

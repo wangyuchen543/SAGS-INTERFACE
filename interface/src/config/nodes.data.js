@@ -143,8 +143,8 @@ export const initialNodesData = [
     lng: 87.1,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV10',
@@ -213,8 +213,8 @@ export const initialNodesData = [
     lng: 86.9,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV17',
