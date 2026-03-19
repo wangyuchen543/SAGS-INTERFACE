@@ -30,7 +30,7 @@ export const mapConfig = {
   // 相机初始配置
   camera: {
     position: {
-      lng: 87.3, // 86-89度的中间
+      lng: 116.3, // 115-118度的中间
       lat: 32.6, // 34-37度的中间
       height: 30000
     },
@@ -52,10 +52,10 @@ export const mapConfig = {
     // 节点模型路径
     paths: {
       // 🛩️ 无人机
-      UAV: '/models/UAV.glb',
+      UAV: '/models/A-UAV.glb',
       
       // 🚀 A-无人机
-      'A-UAV': '/models/A-UAV.glb',
+      'A-UAV': '/models/UAV.glb',
       
       // ⚔️ B-无人机
       'B-UAV': '/models/B-UAV.glb',
@@ -70,7 +70,7 @@ export const mapConfig = {
       PB: '/models/AUV.glb',
       
       // 🎈 浮空基站
-      HIBS: '/models/HIPS.glb',
+      HIBS: '/models/C.glb',
       
       // ⚓ 浮标
       BYO: '/models/BYO.glb',
@@ -118,111 +118,111 @@ export const mapConfig = {
     display: {
       // 空中节点
       UAV: {
-        minimumPixelSize: 48,
+        minimumPixelSize: 60,
         maximumScale: 10000,
-        scale: 30.0
+        scale: 80.0
       },
       'A-UAV': {
         minimumPixelSize: 56,
         maximumScale: 12000,
-        scale: 35.0
+        scale: 70.0
       },
       'B-UAV': {
         minimumPixelSize: 60,
         maximumScale: 13000,
-        scale: 40.0
+        scale: 80.0
       },
       HIBS: {
-        minimumPixelSize: 30,
+        minimumPixelSize: 100,
         maximumScale: 15000,
-        scale: 15.0
+        scale: 200.0
       },
       GEO: {
         minimumPixelSize: 100,   // 增大最小像素尺寸
         maximumScale: 50000,     // 增大最大缩放
-        scale: 5000.0            // 增大模型缩放（让远距离也能看到）
+        scale: 10000.0            // 增大模型缩放（让远距离也能看到）
       },
       
       // 水面节点
       USV: {
         minimumPixelSize: 45,
         maximumScale: 12000,
-        scale: 40.0
+        scale: 80.0
       },
       PB: {
         minimumPixelSize: 70,
         maximumScale: 12000,
-        scale: 45.0
+        scale: 90.0
       },
       BYO: {
         minimumPixelSize: 30,
         maximumScale: 8000,
-        scale: 30.0
+        scale: 60.0
       },
       
       // 水下节点
       AUV: {
         minimumPixelSize: 20,
         maximumScale: 10000,
-        scale: 40.0
+        scale: 80.0
       },
       
       // 固定基础设施
       OCC: {
         minimumPixelSize: 100,
         maximumScale: 20000,
-        scale: 150.0
+        scale: 300.0
       },
       // CBS类型已删除
       MBS: {
         minimumPixelSize: 90,
         maximumScale: 18000,
-        scale: 80.0
+        scale: 160.0
       },
       SMG: {
         minimumPixelSize: 85,
         maximumScale: 16000,
-        scale: 75.0
+        scale: 150.0
       },
       SGS: {
         minimumPixelSize: 60,
         maximumScale: 16000,
-        scale: 50.0
+        scale: 100.0
       },
       SPB: {
         minimumPixelSize: 80,
         maximumScale: 15000,
-        scale: 60.0
+        scale: 120.0
       },
       IPB: {
         minimumPixelSize: 150,
         maximumScale: 16000,
-        scale: 65.0
+        scale: 130.0
       },
       // 🚀 导弹发射车
       PV: {
-        minimumPixelSize: 40,
+        minimumPixelSize: 100,
         maximumScale: 12000,
-        scale: 10.0
+        scale: 40.0
       },
       RDR: {
         minimumPixelSize: 75,
         maximumScale: 14000,
-        scale: 55.0
+        scale: 110.0
       },
       
       // 卫星
       satellite: {
         minimumPixelSize: 60,
         maximumScale: 10000,
-        scale: 50.0
+        scale: 100.0
       },
       
       // 默认配置
       default: {
         minimumPixelSize: 64,
         maximumScale: 10000,
-        scale: 40.0
+        scale: 80.0
       }
     },
     
@@ -256,7 +256,7 @@ export const mapConfig = {
   
   // 旧配置（保持兼容性）
   initial: {
-    center: [87.3, 32.6], // 86-89度经度，34-37度纬度的中间
+    center: [116.3, 32.6], // 115-118度经度，34-37度纬度的中间
     zoom: 2,
     minZoom: 1,
     maxZoom: 18,
