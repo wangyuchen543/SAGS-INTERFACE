@@ -12,7 +12,7 @@ export const initialNodesData = [
     name: 'HIBS1',
     type: 'HIBS',
     lat: 35.0,
-    lng: 115.3333,
+    lng: 115.4333,
     alt: 0,
     comms: ['4G/5G', 'Satellite'],
     mobilityModel: 'ConstantPosition',
@@ -104,8 +104,8 @@ export const initialNodesData = [
     lng: 116.1,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV6',
@@ -114,8 +114,8 @@ export const initialNodesData = [
     lng: 116.03,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV7',
@@ -124,8 +124,8 @@ export const initialNodesData = [
     lng: 116.10,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV8',
@@ -135,7 +135,13 @@ export const initialNodesData = [
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
     mobilityModel: 'Waypoint',
-    isStatic: false
+    isStatic: false,
+    target: {
+      name: 'UAV9',
+      lat: 34.87,
+      lng: 116.1,
+      alt: 200
+    }
   },
   {
     name: 'UAV9',
@@ -154,8 +160,8 @@ export const initialNodesData = [
     lng: 116.07,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV11',
@@ -165,7 +171,13 @@ export const initialNodesData = [
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
     mobilityModel: 'Waypoint',
-    isStatic: false
+    isStatic: false,
+    target: {
+      name: 'A-UAV2',
+      lat: 34.8,
+      lng: 116.18,
+      alt: 600
+    }
   },
   {
     name: 'UAV12',
@@ -174,8 +186,8 @@ export const initialNodesData = [
     lng: 115.97,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV13',
@@ -185,7 +197,13 @@ export const initialNodesData = [
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
     mobilityModel: 'Waypoint',
-    isStatic: false
+    isStatic: false,
+    target: {
+      name: 'UAV16',
+      lat: 35.0833,
+      lng: 115.9,
+      alt: 200
+    }
   },
   {
     name: 'UAV14',
@@ -194,8 +212,8 @@ export const initialNodesData = [
     lng: 115.85,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV15',
@@ -204,8 +222,8 @@ export const initialNodesData = [
     lng: 115.95,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV16',
@@ -224,8 +242,8 @@ export const initialNodesData = [
     lng: 115.8,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV18',
@@ -234,8 +252,8 @@ export const initialNodesData = [
     lng: 115.6,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
 
   // 导弹发射车（静态节点）
@@ -243,7 +261,7 @@ export const initialNodesData = [
     name: 'PV1',
     type: 'PV',
     lat: 35.1667,
-    lng: 116.6,
+    lng: 116.5,
     alt: 0,
     comms: ['4G/5G'],
     mobilityModel: 'ConstantPosition',
@@ -253,7 +271,7 @@ export const initialNodesData = [
     name: 'PV2',
     type: 'PV',
     lat: 34.9167,
-    lng: 116.5,
+    lng: 116.4,
     alt: 0,
     comms: ['4G/5G'],
     mobilityModel: 'ConstantPosition',
@@ -263,7 +281,7 @@ export const initialNodesData = [
     name: 'PV3',
     type: 'PV',
     lat: 34.75,
-    lng: 116.4667,
+    lng: 116.2667,
     alt: 0,
     comms: ['4G/5G'],
     mobilityModel: 'ConstantPosition',

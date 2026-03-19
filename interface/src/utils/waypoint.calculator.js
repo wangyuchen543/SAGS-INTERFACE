@@ -120,6 +120,31 @@ function updatePosition(state, deltaTime, nodeType) {
 }
 
 /**
+ * 计算两点之间的距离（米）
+ */
+function calculateDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371000 // 地球半径（米）
+  const dLat = (lat2 - lat1) * Math.PI / 180
+  const dLng = (lng2 - lng1) * Math.PI / 180
+  const a =
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng/2) * Math.sin(dLng/2)
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+  return R * c
+}
+
+/**
+ * 计算移动方向（度）
+ */
+function calculateBearing(lat1, lng1, lat2, lng2) {
+  const y = Math.sin((lng2 - lng1) * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180)
+  const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
+            Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos((lng2 - lng1) * Math.PI / 180)
+  return normalizeAngle(Math.atan2(y, x) * 180 / Math.PI)
+}
+
+/**
  * 创建随机游走的位置回调属性
  * @param {Object} node - 节点对象
  * @returns {Cesium.CallbackProperty}
@@ -149,8 +174,60 @@ export function createRandomWalkPositionProperty(node) {
     const deltaTime = Math.max(0, currentTime - lastTime)
     
     if (deltaTime > 0 && deltaTime < 10) { // 防止时间跳跃过大
-      // 更新位置
-      updatePosition(state, deltaTime, node.type)
+      if (node.target) {
+        // 有目标点，实现直线移动到目标
+        const distance = calculateDistance(state.lat, state.lng, node.target.lat, node.target.lng)
+        
+        if (distance > 10) { // 距离大于10米时继续移动
+          // 计算移动方向
+          const bearing = calculateBearing(state.lat, state.lng, node.target.lat, node.target.lng)
+          state.direction = bearing
+          
+          // 计算移动距离
+          const params = getMobilityParams(node.type)
+          let speedMultiplier = 1.0
+          
+          // UAV11的速度是其他无人机的0.85倍
+          if (node.name === 'UAV11') {
+            speedMultiplier = 0.85
+          }
+          // UAV8的速度是其他无人机的0.5倍
+          else if (node.name === 'UAV8') {
+            speedMultiplier = 0.5
+          }
+          
+          const moveDistance = params.speed.min * deltaTime * speedMultiplier // 使用最小速度保证平滑移动
+          
+          // 使用Haversine公式计算新位置
+          const R = 6371000 // 地球半径（米）
+          const lat1 = state.lat * Math.PI / 180
+          const lng1 = state.lng * Math.PI / 180
+          const bearingRad = bearing * Math.PI / 180
+          
+          const lat2 = Math.asin(
+            Math.sin(lat1) * Math.cos(moveDistance / R) +
+            Math.cos(lat1) * Math.sin(moveDistance / R) * Math.cos(bearingRad)
+          )
+          
+          const lng2 = lng1 + Math.atan2(
+            Math.sin(bearingRad) * Math.sin(moveDistance / R) * Math.cos(lat1),
+            Math.cos(moveDistance / R) - Math.sin(lat1) * Math.sin(lat2)
+          )
+          
+          // 更新状态
+          state.lat = lat2 * 180 / Math.PI
+          state.lng = lng2 * 180 / Math.PI
+          state.alt = node.target.alt
+        } else {
+          // 到达目标点，停止移动
+          state.lat = node.target.lat
+          state.lng = node.target.lng
+          state.alt = node.target.alt
+        }
+      } else {
+        // 没有目标点，使用随机游走
+        updatePosition(state, deltaTime, node.type)
+      }
       lastTime = currentTime
     } else if (lastTime === 0) {
       lastTime = currentTime
