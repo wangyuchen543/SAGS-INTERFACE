@@ -52,7 +52,7 @@ export const mapConfig = {
     // 节点模型路径
     paths: {
       // 🛩️ 无人机
-      UAV: '/models/UAV.glb',
+      UAV: '/models/plane.glb',
       
       // 🚀 A-无人机
       'A-UAV': '/models/A-UAV.glb',
@@ -120,7 +120,7 @@ export const mapConfig = {
       UAV: {
         minimumPixelSize: 130,
         maximumScale: 1500,
-        scale: 80.0
+        scale: 30.0
       },
       'A-UAV': {
         minimumPixelSize: 110,
