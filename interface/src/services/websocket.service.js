@@ -12,7 +12,8 @@ const testXmlFiles = [
   '/test/test-performance-10s.xml',
   '/test/test-performance-20s.xml',
   '/test/test-performance-30s.xml',
-  '/test/test-performance-40s.xml'
+  '/test/test-performance-40s.xml',
+  '/test/test-performance-50s.xml'
 ]
 
 // WebSocket配置

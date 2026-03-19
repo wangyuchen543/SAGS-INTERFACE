@@ -52,10 +52,10 @@ export const mapConfig = {
     // 节点模型路径
     paths: {
       // 🛩️ 无人机
-      UAV: '/models/A-UAV.glb',
+      UAV: '/models/UAV.glb',
       
       // 🚀 A-无人机
-      'A-UAV': '/models/UAV.glb',
+      'A-UAV': '/models/A-UAV.glb',
       
       // ⚔️ B-无人机
       'B-UAV': '/models/B-UAV.glb',

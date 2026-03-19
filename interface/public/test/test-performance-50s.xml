@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<performance>
+  <!-- 仿真时间（秒） -->
+  <simulationTime>50</simulationTime>
+  
+ 
+  
+  <!-- 整体性能指标 -->
+  <overall>
+    <throughput>2150.8</throughput>
+    <delay>22.6</delay>
+    <transmissionRate>1480.3</transmissionRate>
+    <packetLoss>2.3</packetLoss>
+  </overall>
+  
+  <!-- 业务类型A的性能指标 -->
+  <business type="A">
+    <throughput>580.5</throughput>
+    <delay>19.2</delay>
+    <transmissionRate>420.8</transmissionRate>
+    <packetLoss>1.9</packetLoss>
+  </business>
+  
+  <!-- 业务类型B的性能指标 -->
+  <business type="B">
+    <throughput>720.6</throughput>
+    <delay>24.8</delay>
+    <transmissionRate>510.2</transmissionRate>
+    <packetLoss>2.6</packetLoss>
+  </business>
+  
+  <!-- 业务类型C的性能指标 -->
+  <business type="C">
+    <throughput>450.3</throughput>
+    <delay>21.5</delay>
+    <transmissionRate>295.7</transmissionRate>
+    <packetLoss>2.1</packetLoss>
+  </business>
+  
+  <!-- 业务类型D的性能指标 -->
+  <business type="D">
+    <throughput>399.4</throughput>
+    <delay>23.1</delay>
+    <transmissionRate>253.6</transmissionRate>
+    <packetLoss>2.5</packetLoss>
+  </business>
+  
+<!-- 节点之间的通信连接关系 -->
+  <links>
+    
+    <!-- ==================== 卫星通信 (HIBS) ==================== -->
+      <!-- HIBS1 ↔ HIBS2 -->
+    <link>
+      <node1>HIBS1</node1>
+      <node2>HIBS2</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <!-- HIBS2 ↔ HIBS3 -->
+    <link>
+      <node1>HIBS2</node1>
+      <node2>HIBS3</node2>
+      <commType>Satellite</commType>
+    </link>
+    
+    <!-- HIBS3 ↔ HIBS4 -->
+    <link>
+      <node1>HIBS3</node1>
+      <node2>HIBS4</node2>
+      <commType>Satellite</commType>
+    </link>
+  
+    
+ 
+    
+    <!-- ==================== Mesh通信 (普通无人机1-4) ==================== -->
+    
+    <!-- UAV1 ↔ UAV2 -->
+    <link>
+      <node1>UAV1</node1>
+      <node2>UAV2</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <!-- UAV2 ↔ UAV3 -->
+    <link>
+      <node1>UAV2</node1>
+      <node2>UAV3</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+    <!-- UAV3 ↔ UAV4 -->
+    <link>
+      <node1>UAV3</node1>
+      <node2>UAV4</node2>
+      <commType>Mesh</commType>
+    </link>
+    
+ 
+    
+    <!-- ==================== 4G通信 (A-UAV) ==================== -->
+    
+    <!-- A-UAV1 ↔ UAV11 -->
+    <link>
+      <node1>A-UAV1</node1>
+      <node2>UAV11</node2>
+      <commType>4G</commType>
+    </link>
+    
+    <!-- UAV11 ↔ A-UAV3 -->
+    <link>
+      <node1>UAV11</node1>
+      <node2>A-UAV3</node2>
+      <commType>4G</commType>
+    </link>
+    
+    <!-- A-UAV3 ↔ A-UAV4 -->
+    <link>
+      <node1>A-UAV3</node1>
+      <node2>A-UAV4</node2>
+      <commType>4G</commType>
+    </link>
+    
+    
+    
+    <!-- ==================== 5G通信 (B-UAV) ==================== -->
+    
+    <!-- B-UAV1 ↔ B-UAV2 -->
+    <link>
+      <node1>B-UAV1</node1>
+      <node2>B-UAV2</node2>
+      <commType>5G</commType>
+    </link>
+    
+    <!-- B-UAV2 ↔ B-UAV3 -->
+    <link>
+      <node1>B-UAV2</node1>
+      <node2>B-UAV3</node2>
+      <commType>5G</commType>
+    </link>
+    
+    <!-- B-UAV3 ↔ B-UAV4 -->
+    <link>
+      <node1>B-UAV3</node1>
+      <node2>B-UAV4</node2>
+      <commType>5G</commType>
+    </link>
+    
+ 
+    
+    <!-- ==================== 有线通信 (其他普通无人机) ==================== -->
+    
+    <!-- UAV5 ↔ UAV6 -->
+    <link>
+      <node1>UAV5</node1>
+      <node2>UAV6</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV6 ↔ UAV12 -->
+    <link>
+      <node1>UAV6</node1>
+      <node2>UAV12</node2>
+      <commType>Wired</commType>
+    </link>
+    
+
+    
+    <!-- UAV12 ↔ UAV15 -->
+    <link>
+      <node1>UAV12</node1>
+      <node2>UAV15</node2>
+      <commType>Wired</commType>
+    </link>
+    
+
+    
+    <!-- UAV18 ↔ UAV17 -->
+    <link>
+      <node1>UAV18</node1>
+      <node2>UAV17</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV17 ↔ UAV13 -->
+    <link>
+      <node1>UAV17</node1>
+      <node2>UAV13</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV14 ↔ UAV17 -->
+    <link>
+      <node1>UAV14</node1>
+      <node2>UAV17</node2>
+      <commType>Wired</commType>
+    </link>
+    
+    <!-- UAV13 ↔ UAV14 -->
+    <link>
+      <node1>UAV13</node1>
+      <node2>UAV14</node2>
+      <commType>Wired</commType>
+    </link>
+
+       <!-- B-UAV2 ↔ UAV15 -->
+    <link>
+      <node1>B-UAV2</node1>
+      <node2>UAV15</node2>
+      <commType>Wired</commType>
+    </link>
+         <!-- B-UAV2 ↔ UAV10 -->
+    <link>
+      <node1>B-UAV2</node1>
+      <node2>UAV10</node2>
+      <commType>Wired</commType>
+    </link>
+         <!-- B-UAV2 ↔ UAV7 -->
+    <link>
+      <node1>B-UAV2</node1>
+      <node2>UAV7</node2>
+      <commType>Wired</commType>
+    </link>
+         <!-- UAV5 ↔ UAV7 -->
+    <link>
+      <node1>UAV5</node1>
+      <node2>UAV7</node2>
+      <commType>Wired</commType>
+    </link>
+    
+   
+       <!-- HIBS2 ↔ UAV18 -->
+    <link>
+      <node1>HIBS2</node1>
+      <node2>UAV18</node2>
+      <commType>Wired</commType>
+    </link>
+       <!-- UAV5 ↔ UAV2 -->
+    <link>
+      <node1>UAV5</node1>
+      <node2>UAV2</node2>
+      <commType>Wired</commType>
+    </link>
+           <!-- UAV8 ↔ A-UAV1 -->
+    <link>
+      <node1>UAV8</node1>
+      <node2>A-UAV1</node2>
+      <commType>Wired</commType>
+    </link>
+   
+
+           <!-- UAV10 ↔ UAV8 -->
+    <link>
+      <node1>UAV10</node1>
+      <node2>UAV8</node2>
+      <commType>Wired</commType>
+    </link>
+ 
+                    <!-- UAV15 ↔ UAV13 -->
+    <link>
+      <node1>UAV15</node1>
+      <node2>UAV13</node2>
+      <commType>Wired</commType>
+    </link>
+ 
+   
+
+  </links>
+</performance>
