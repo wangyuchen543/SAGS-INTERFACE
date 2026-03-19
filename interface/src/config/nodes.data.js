@@ -55,7 +55,7 @@ export const initialNodesData = [
 
   
 
-  // 无人机
+  // 无人机（UAV1-4为静态节点）
   {
     name: 'UAV1',
     type: 'UAV',
@@ -63,8 +63,8 @@ export const initialNodesData = [
     lng: 87.2,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV2',
@@ -73,8 +73,8 @@ export const initialNodesData = [
     lng: 87.22,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV3',
@@ -83,8 +83,8 @@ export const initialNodesData = [
     lng: 87.28,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV4',
@@ -93,8 +93,8 @@ export const initialNodesData = [
     lng: 87.34,
     alt: 200,
     comms: ['4G/5G', 'Mesh'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'UAV5',
@@ -237,7 +237,7 @@ export const initialNodesData = [
     isStatic: false
   },
 
-  // 导弹发射车
+  // 导弹发射车（静态节点）
   {
     name: 'PV1',
     type: 'PV',
@@ -245,8 +245,8 @@ export const initialNodesData = [
     lng: 87.6,
     alt: 0,
     comms: ['4G/5G'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'PV2',
@@ -255,8 +255,8 @@ export const initialNodesData = [
     lng: 87.5,
     alt: 0,
     comms: ['4G/5G'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'PV3',
@@ -265,12 +265,12 @@ export const initialNodesData = [
     lng: 87.4667,
     alt: 0,
     comms: ['4G/5G'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
 
 
-  // 高级无人机（A-UAV）
+  // 高级无人机（A-UAV，静态节点）
   {
     name: 'A-UAV1',
     type: 'A-UAV',
@@ -278,8 +278,8 @@ export const initialNodesData = [
     lng: 87.15,
     alt: 600,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'A-UAV2',
@@ -288,8 +288,8 @@ export const initialNodesData = [
     lng: 87.18,
     alt: 600,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'A-UAV3',
@@ -298,8 +298,8 @@ export const initialNodesData = [
     lng: 87.2,
     alt: 600,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'A-UAV4',
@@ -308,11 +308,11 @@ export const initialNodesData = [
     lng: 87.22,
     alt: 600,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
 
-  // 战斗无人机（B-UAV）
+  // 战斗无人机（B-UAV，静态节点）
   {
     name: 'B-UAV1',
     type: 'B-UAV',
@@ -320,8 +320,8 @@ export const initialNodesData = [
     lng: 87.0,
     alt: 700,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'B-UAV2',
@@ -330,8 +330,8 @@ export const initialNodesData = [
     lng: 87.0,
     alt: 700,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'B-UAV3',
@@ -340,8 +340,8 @@ export const initialNodesData = [
     lng: 87.0,
     alt: 700,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   },
   {
     name: 'B-UAV4',
@@ -350,8 +350,8 @@ export const initialNodesData = [
     lng: 87.0,
     alt: 700,
     comms: ['4G/5G', 'Mesh', 'Satellite'],
-    mobilityModel: 'Waypoint',
-    isStatic: false
+    mobilityModel: 'ConstantPosition',
+    isStatic: true
   }
 ]
 
