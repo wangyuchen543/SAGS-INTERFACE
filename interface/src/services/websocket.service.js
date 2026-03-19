@@ -9,9 +9,10 @@ import { buildNodeConfigXML, parsePerformanceXML } from '../utils/websocket.xml.
 // 测试模式配置
 const testMode = true // 设置为true启用测试模式
 const testXmlFiles = [
-  '/test/test-performance.xml',
+  '/test/test-performance-10s.xml',
   '/test/test-performance-20s.xml',
-  '/test/test-performance-complete.xml'
+  '/test/test-performance-30s.xml',
+  '/test/test-performance-40s.xml'
 ]
 
 // WebSocket配置
@@ -154,7 +155,7 @@ const startTestMode = async () => {
       
       // 等待一段时间再加载下一个文件
       if (i < testXmlFiles.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await new Promise(resolve => setTimeout(resolve, 10000))
       }
     } catch (error) {
       console.error('❌ 处理测试文件失败:', error)

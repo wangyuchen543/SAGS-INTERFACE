@@ -86,7 +86,7 @@ function calculateDistance(lat1, lng1, alt1, lat2, lng2, alt2) {
  * @returns {Array} 航点数组 [{lat, lng, alt, time}, ...]
  */
 export function generateWaypoints(node, currentTime, duration = 300) {
-  if (node.isStatic || node.mobilityModel !== 'Waypoint') {
+  if (node.isStatic) {
     // 静态节点返回单个航点
     return [{
       lat: node.lat,
@@ -96,6 +96,19 @@ export function generateWaypoints(node, currentTime, duration = 300) {
     }]
   }
   
+  if (node.mobilityModel === 'Linear') {
+    // 线性移动模型：随机方向匀速直线运动
+    return generateLinearWaypoints(node, currentTime, duration)
+  } else {
+    // 默认使用Waypoint移动模型
+    return generateWaypointWaypoints(node, currentTime, duration)
+  }
+}
+
+/**
+ * 生成Waypoint移动模型的航点
+ */
+function generateWaypointWaypoints(node, currentTime, duration = 300) {
   const params = getMobilityParams(node.type)
   const waypoints = []
   const MAX_WAYPOINTS = 20  // 最大航点数量限制（防止XML过大）
@@ -158,6 +171,73 @@ export function generateWaypoints(node, currentTime, duration = 300) {
     currentLng = nextPos.lng
     currentAlt = nextPos.alt
   }
+  
+  return waypoints
+}
+
+/**
+ * 生成Linear移动模型的航点（随机方向匀速直线运动）
+ */
+function generateLinearWaypoints(node, currentTime, duration = 300) {
+  const params = getMobilityParams(node.type)
+  const waypoints = []
+  
+  let currentLat = node.lat
+  let currentLng = node.lng
+  let currentAlt = node.alt
+  let time = currentTime
+  
+  // 添加起始点
+  waypoints.push({
+    lat: currentLat,
+    lng: currentLng,
+    alt: currentAlt,
+    time: time
+  })
+  
+  // 随机生成一个方向（0-360度）
+  const bearing = randomInRange(0, 360)
+  // 随机生成一个速度（在速度范围内）
+  const speed = randomInRange(params.speed.min, params.speed.max)
+  
+  // 计算总距离
+  const totalDistance = speed * duration
+  
+  // 使用Haversine公式计算终点位置
+  const R = 6371000 // 地球半径（米）
+  const lat1 = currentLat * Math.PI / 180
+  const lng1 = currentLng * Math.PI / 180
+  const bearingRad = bearing * Math.PI / 180
+  
+  const lat2 = Math.asin(
+    Math.sin(lat1) * Math.cos(totalDistance / R) +
+    Math.cos(lat1) * Math.sin(totalDistance / R) * Math.cos(bearingRad)
+  )
+  
+  const lng2 = lng1 + Math.atan2(
+    Math.sin(bearingRad) * Math.sin(totalDistance / R) * Math.cos(lat1),
+    Math.cos(totalDistance / R) - Math.sin(lat1) * Math.sin(lat2)
+  )
+  
+  let endLat = lat2 * 180 / Math.PI
+  let endLng = lng2 * 180 / Math.PI
+  
+  // 确保在区域边界内
+  endLat = Math.max(regionBounds.lat.min, Math.min(regionBounds.lat.max, endLat))
+  endLng = Math.max(regionBounds.lng.min, Math.min(regionBounds.lng.max, endLng))
+  
+  // 保持高度不变（匀速直线运动）
+  const endAlt = currentAlt
+  
+  // 添加终点航点
+  waypoints.push({
+    lat: endLat,
+    lng: endLng,
+    alt: endAlt,
+    time: currentTime + duration
+  })
+  
+  console.log(`🚀 线性移动模型: ${node.name} 从 [${currentLng}, ${currentLat}, ${currentAlt}m] 向方向 ${bearing.toFixed(2)}° 以 ${speed.toFixed(2)}m/s 运动到 [${endLng.toFixed(6)}, ${endLat.toFixed(6)}, ${endAlt}m]`)
   
   return waypoints
 }

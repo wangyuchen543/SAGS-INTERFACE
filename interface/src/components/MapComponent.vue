@@ -30,7 +30,7 @@ import { mapConfig } from '../config/map.config.js'
 import { nodeTypes, commTypes, hainanRegion } from '../config/nodes.config.js'
 import { generateAllWaypoints, waypointsToCartesian, createSampledPositionProperty } from '../utils/waypoint.calculator.js'
 import { sendNodeConfig, addWSListener, removeWSListener, connectWebSocket } from '../services/websocket.service.js'
-import { addSimulationListener, removeSimulationListener, getRunningTime, commMode, setTimeMultiplier } from '../services/simulation.service.js'
+import { addSimulationListener, removeSimulationListener, getRunningTime, commMode, setTimeMultiplier, startSimulation } from '../services/simulation.service.js'
 import { toChineseName } from '../utils/node.name.mapper.js'
 
 // 设置 Cesium Token
@@ -651,17 +651,38 @@ const toggleFullscreen = () => {
 const handleSimulationStart = async (data) => {
   console.log('🚀 仿真开始，生成移动节点航点...')
   
+  // 首先启动前端仿真状态
+  startSimulation()
+  
   // 设置仿真运行状态
   isSimulationRunning.value = true
   
   // 设置仿真开始时间
   simulationStartTime = Cesium.JulianDate.now()
   
+  // 确保Cesium时钟动画开启
+  if (viewer && viewer.clock) {
+    viewer.clock.shouldAnimate = true
+    console.log('⏰ 已启用Cesium时钟动画')
+  }
+  
   // ✅ 为所有节点生成航点（600秒=10分钟，增加缓冲，避免节点消失）
   const currentTime = 0 // 相对时间，从0开始
   waypointsMap = generateAllWaypoints(props.nodes, currentTime, 600)
   
   console.log(`✅ 已生成 ${waypointsMap.size} 个节点的航点`)
+  
+  // 打印航点详情，用于调试
+  waypointsMap.forEach((waypoints, nodeName) => {
+    const node = props.nodes.find(n => n.name === nodeName)
+    if (node && !node.isStatic) {
+      console.log(`📋 节点 ${nodeName} 航点信息:`, {
+        count: waypoints.length,
+        first: waypoints[0],
+        last: waypoints[waypoints.length - 1]
+      })
+    }
+  })
   
   // 重新创建所有节点实体（应用航点）
   updateNodes()
@@ -692,6 +713,7 @@ const handleSimulationStart = async (data) => {
   
   movementUpdateInterval = setInterval(() => {
     const runningTime = getRunningTime()
+    console.log(`⏰ 当前运行时间: ${runningTime}秒`)
     
     // ✅ 生成新的航点（从当前时间开始，未来600秒=10分钟，增加缓冲）
     waypointsMap = generateAllWaypoints(props.nodes, runningTime, 600)
@@ -709,7 +731,7 @@ const handleSimulationStart = async (data) => {
     })
     
     // 注意：不再发送更新后的航点到后端，节点配置XML只在仿真开始时发送一次
-  }, 20000) // ✅ 每20秒更新一次（缩短更新间隔，避免超出范围）
+  }, 10000) // ✅ 每10秒更新一次（缩短更新间隔，避免超出范围）
   
   // ✅ 启动定时更新选中节点的InfoBox（每秒更新）
   if (infoBoxUpdateInterval) {

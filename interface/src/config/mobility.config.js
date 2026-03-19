@@ -23,42 +23,42 @@ export const mobilityParams = {
   Waypoint: {
     AUV: {
       speed: { min: 50, max: 150 },          // 速度范围 m/s (提升10倍)
-      pauseTime: { min: 2, max: 5 },         // 停留时间 秒
+      pauseTime: { min: 5, max: 5 },         // 停留时间 秒
       waypointInterval: 60,                   // 航点间隔时间 秒
       minWaypointDistance: 500,               // 最小航点距离 米
       maxWaypointDistance: 3000               // 最大航点距离 米
     },
     USV: {
       speed: { min: 80, max: 200 },          // 速度范围 m/s (提升10倍)
-      pauseTime: { min: 2, max: 5 },         // 停留时间 秒
+      pauseTime: { min: 5, max: 5 },         // 停留时间 秒
       waypointInterval: 45,
       minWaypointDistance: 800,
       maxWaypointDistance: 5000
     },
     UAV: {
-      speed: { min: 150, max: 300 },         // 速度范围 m/s (提升10倍)
-      pauseTime: { min: 2, max: 5 },         // 停留时间 秒
+      speed: { min: 2500, max: 3000 },       // 速度范围 m/s (提升100倍)
+      pauseTime: { min: 5, max: 5 },         // 停留时间 秒
       waypointInterval: 30,
-      minWaypointDistance: 1000,
-      maxWaypointDistance: 8000
+      minWaypointDistance: 10000,
+      maxWaypointDistance: 80000
     },
     'A-UAV': {
       speed: { min: 200, max: 400 },         // 速度范围 m/s (提升10倍)
-      pauseTime: { min: 1, max: 3 },         // 停留时间 秒
+      pauseTime: { min: 5, max: 5 },         // 停留时间 秒
       waypointInterval: 25,
       minWaypointDistance: 1200,
       maxWaypointDistance: 10000
     },
     'B-UAV': {
       speed: { min: 250, max: 500 },         // 速度范围 m/s (提升10倍)
-      pauseTime: { min: 0.5, max: 2 },       // 停留时间 秒
+      pauseTime: { min: 5, max: 5 },         // 停留时间 秒
       waypointInterval: 20,
       minWaypointDistance: 1500,
       maxWaypointDistance: 12000
     },
     PV: {
       speed: { min: 100, max: 250 },         // 速度范围 m/s (提升10倍)
-      pauseTime: { min: 2, max: 5 },         // 停留时间 秒
+      pauseTime: { min: 5, max: 5 },         // 停留时间 秒
       waypointInterval: 40,
       minWaypointDistance: 500,
       maxWaypointDistance: 3000

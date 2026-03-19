@@ -1,49 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <performance>
   <!-- 仿真时间（秒） -->
-  <simulationTime>20</simulationTime>
+  <simulationTime>30</simulationTime>
+  
+  <!-- 仿真状态 -->
+  <status>complete</status>
   
   <!-- 整体性能指标 -->
   <overall>
-    <throughput>1980.2</throughput>
-    <delay>20.1</delay>
-    <transmissionRate>1350.6</transmissionRate>
-    <packetLoss>2.0</packetLoss>
+    <throughput>2150.8</throughput>
+    <delay>22.6</delay>
+    <transmissionRate>1480.3</transmissionRate>
+    <packetLoss>2.3</packetLoss>
   </overall>
   
   <!-- 业务类型A的性能指标 -->
   <business type="A">
-    <throughput>545.8</throughput>
-    <delay>17.2</delay>
-    <transmissionRate>395.4</transmissionRate>
-    <packetLoss>1.7</packetLoss>
+    <throughput>580.5</throughput>
+    <delay>19.2</delay>
+    <transmissionRate>420.8</transmissionRate>
+    <packetLoss>1.9</packetLoss>
   </business>
   
   <!-- 业务类型B的性能指标 -->
   <business type="B">
-    <throughput>665.8</throughput>
-    <delay>22.1</delay>
-    <transmissionRate>475.8</transmissionRate>
-    <packetLoss>2.3</packetLoss>
+    <throughput>720.6</throughput>
+    <delay>24.8</delay>
+    <transmissionRate>510.2</transmissionRate>
+    <packetLoss>2.6</packetLoss>
   </business>
   
   <!-- 业务类型C的性能指标 -->
   <business type="C">
-    <throughput>410.5</throughput>
-    <delay>18.9</delay>
-    <transmissionRate>270.8</transmissionRate>
-    <packetLoss>1.8</packetLoss>
+    <throughput>450.3</throughput>
+    <delay>21.5</delay>
+    <transmissionRate>295.7</transmissionRate>
+    <packetLoss>2.1</packetLoss>
   </business>
   
   <!-- 业务类型D的性能指标 -->
   <business type="D">
-    <throughput>358.7</throughput>
-    <delay>20.6</delay>
-    <transmissionRate>208.6</transmissionRate>
-    <packetLoss>2.2</packetLoss>
+    <throughput>399.4</throughput>
+    <delay>23.1</delay>
+    <transmissionRate>253.6</transmissionRate>
+    <packetLoss>2.5</packetLoss>
   </business>
   
-  <!-- 节点之间的通信连接关系 -->
+ <!-- 节点之间的通信连接关系 -->
   <links>
     
     <!-- ==================== 卫星通信 (HIBS) ==================== -->
@@ -67,7 +70,7 @@
       <node2>HIBS4</node2>
       <commType>Satellite</commType>
     </link>
-
+  
     
  
     
@@ -162,12 +165,7 @@
       <commType>Wired</commType>
     </link>
     
-    <!-- UAV12 ↔ UAV13 -->
-    <link>
-      <node1>UAV12</node1>
-      <node2>UAV13</node2>
-      <commType>Wired</commType>
-    </link>
+
     
     <!-- UAV12 ↔ UAV15 -->
     <link>
@@ -176,12 +174,7 @@
       <commType>Wired</commType>
     </link>
     
-    <!-- UAV15 ↔ UAV14 -->
-    <link>
-      <node1>UAV9</node1>
-      <node2>UAV10</node2>
-      <commType>Wired</commType>
-    </link>
+
     
     <!-- UAV18 ↔ UAV17 -->
     <link>
@@ -190,10 +183,10 @@
       <commType>Wired</commType>
     </link>
     
-    <!-- UAV17 ↔ UAV16 -->
+    <!-- UAV17 ↔ UAV13 -->
     <link>
       <node1>UAV17</node1>
-      <node2>UAV16</node2>
+      <node2>UAV13</node2>
       <commType>Wired</commType>
     </link>
     
@@ -204,9 +197,9 @@
       <commType>Wired</commType>
     </link>
     
-    <!-- UAV16 ↔ UAV14 -->
+    <!-- UAV13 ↔ UAV14 -->
     <link>
-      <node1>UAV16</node1>
+      <node1>UAV13</node1>
       <node2>UAV14</node2>
       <commType>Wired</commType>
     </link>
@@ -249,48 +242,34 @@
       <node2>UAV2</node2>
       <commType>Wired</commType>
     </link>
-           <!-- UAV9 ↔ A-UAV1 -->
+           <!-- UAV8 ↔ A-UAV1 -->
     <link>
-      <node1>UAV9</node1>
+      <node1>UAV8</node1>
       <node2>A-UAV1</node2>
       <commType>Wired</commType>
     </link>
-           <!-- UAV11 ↔ UAV9 -->
-    <link>
-      <node1>UA11</node1>
-      <node2>UAV9</node2>
-      <commType>Wired</commType>
-    </link>
-           <!-- UAV8 ↔ UAV9 -->
-    <link>
-      <node1>UAV8</node1>
-      <node2>UAV9</node2>
-      <commType>Wired</commType>
-    </link>
+   
+
            <!-- UAV10 ↔ UAV8 -->
     <link>
       <node1>UAV10</node1>
       <node2>UAV8</node2>
       <commType>Wired</commType>
     </link>
-              <!-- UAV10 ↔ UAV8 -->
-    <link>
-      <node1>UAV10</node1>
-      <node2>UAV9</node2>
-      <commType>Wired</commType>
-    </link>
-                   <!-- UAV15 ↔ UAV16 -->
+ 
+                    <!-- UAV15 ↔ UAV13 -->
     <link>
       <node1>UAV15</node1>
-      <node2>UAV16</node2>
+      <node2>UAV13</node2>
       <commType>Wired</commType>
     </link>
-                             <!-- UAV11 ↔ UAV9 -->
+                   <!-- UAV11 ↔ UAV8 -->
     <link>
       <node1>UAV11</node1>
-      <node2>UAV9</node2>
+      <node2>UAV8</node2>
       <commType>Wired</commType>
     </link>
+   
 
   </links>
 </performance>
