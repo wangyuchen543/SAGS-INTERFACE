@@ -28,7 +28,11 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 import * as Cesium from 'cesium'
 import { mapConfig } from '../config/map.config.js'
 import { nodeTypes, commTypes, hainanRegion } from '../config/nodes.config.js'
-import { generateAllWaypoints, waypointsToCartesian, createSampledPositionProperty } from '../utils/waypoint.calculator.js'
+import { 
+  createRandomWalkPositionProperty, 
+  resetAllNodeStates, 
+  getNodeCurrentPosition
+} from '../utils/waypoint.calculator.js'
 import { sendNodeConfig, addWSListener, removeWSListener, connectWebSocket } from '../services/websocket.service.js'
 import { addSimulationListener, removeSimulationListener, getRunningTime, commMode, setTimeMultiplier, startSimulation } from '../services/simulation.service.js'
 import { toChineseName } from '../utils/node.name.mapper.js'
@@ -69,9 +73,7 @@ let connectionLines = new Map()
 let updateInterval = null
 
 // 移动模型相关
-let waypointsMap = new Map() // 存储所有节点的航点
 let simulationStartTime = null // 仿真开始的JulianDate
-let movementUpdateInterval = null // 定期更新移动节点的定时器
 let infoBoxUpdateInterval = null // 定期更新InfoBox的定时器
 let clockMultiplierInterval = null // 监听时钟倍速变化的定时器
 let isSimulationRunning = ref(false) // 仿真是否正在运行
@@ -318,15 +320,13 @@ const createNodeEntity = (node) => {
     // 静态节点：固定位置
     entityConfig.position = Cesium.Cartesian3.fromDegrees(node.lng, node.lat, node.alt)
   } else {
-    // 移动节点：使用SampledPositionProperty实现平滑移动
-    if (waypointsMap.has(node.name) && simulationStartTime) {
-      const waypoints = waypointsMap.get(node.name)
-      const cartesianWaypoints = waypointsToCartesian(waypoints)
-      const positionProperty = createSampledPositionProperty(cartesianWaypoints, simulationStartTime)
+    // 移动节点：使用CallbackProperty实现随机游走
+    if (isSimulationRunning.value) {
+      const positionProperty = createRandomWalkPositionProperty(node)
       entityConfig.position = positionProperty
-      console.log(`🚀 移动节点 ${node.name} 配置了 ${waypoints.length} 个航点`)
+      console.log(`🚀 移动节点 ${node.name} 已配置随机游走位置属性`)
     } else {
-      // 如果还没有航点，先使用初始位置
+      // 仿真未开始，使用初始位置
       entityConfig.position = Cesium.Cartesian3.fromDegrees(node.lng, node.lat, node.alt)
       console.log(`📍 移动节点 ${node.name} 暂时使用初始位置`)
     }
@@ -649,13 +649,16 @@ const toggleFullscreen = () => {
 
 // 处理仿真开始事件
 const handleSimulationStart = async (data) => {
-  console.log('🚀 仿真开始，生成移动节点航点...')
+  console.log('🚀 仿真开始，启动随机游走移动模型...')
   
   // 首先启动前端仿真状态
   startSimulation()
   
   // 设置仿真运行状态
   isSimulationRunning.value = true
+  
+  // 重置所有节点的移动状态
+  resetAllNodeStates()
   
   // 设置仿真开始时间
   simulationStartTime = Cesium.JulianDate.now()
@@ -666,72 +669,17 @@ const handleSimulationStart = async (data) => {
     console.log('⏰ 已启用Cesium时钟动画')
   }
   
-  // ✅ 为所有节点生成航点（600秒=10分钟，增加缓冲，避免节点消失）
-  const currentTime = 0 // 相对时间，从0开始
-  waypointsMap = generateAllWaypoints(props.nodes, currentTime, 600)
-  
-  console.log(`✅ 已生成 ${waypointsMap.size} 个节点的航点`)
-  
-  // 打印航点详情，用于调试
-  waypointsMap.forEach((waypoints, nodeName) => {
-    const node = props.nodes.find(n => n.name === nodeName)
-    if (node && !node.isStatic) {
-      console.log(`📋 节点 ${nodeName} 航点信息:`, {
-        count: waypoints.length,
-        first: waypoints[0],
-        last: waypoints[waypoints.length - 1]
-      })
-    }
-  })
-  
-  // 重新创建所有节点实体（应用航点）
+  // 重新创建所有节点实体（应用随机游走位置属性）
   updateNodes()
+  console.log('✅ 所有节点已应用随机游走移动模型')
   
-  // 确保WebSocket连接，然后发送节点配置XML到后端
+  // 启动WebSocket连接（测试模式下会加载XML文件）
   try {
-    console.log('🔌 检查WebSocket连接状态...')
+    console.log('🔌 启动WebSocket连接（测试模式）...')
     await connectWebSocket()
-    console.log('✅ WebSocket连接已建立')
-    
-    // 发送节点配置XML到后端
-    const sendResult = sendNodeConfig(props.nodes, waypointsMap)
-    if (sendResult) {
-      console.log('✅ 节点配置XML已发送到后端')
-    } else {
-      console.error('❌ 节点配置XML发送失败')
-    }
   } catch (error) {
     console.error('❌ WebSocket连接失败:', error)
   }
-  
-  // 注意：连线将在接收到后端XML数据后自动创建
-  
-  // 启动定期更新移动节点的定时器（仅更新前端显示，不发送到后端）
-  if (movementUpdateInterval) {
-    clearInterval(movementUpdateInterval)
-  }
-  
-  movementUpdateInterval = setInterval(() => {
-    const runningTime = getRunningTime()
-    console.log(`⏰ 当前运行时间: ${runningTime}秒`)
-    
-    // ✅ 生成新的航点（从当前时间开始，未来600秒=10分钟，增加缓冲）
-    waypointsMap = generateAllWaypoints(props.nodes, runningTime, 600)
-    
-    // 更新移动节点的位置属性（仅前端显示）
-    props.nodes.forEach(node => {
-      if (!node.isStatic && nodeEntities.has(node.name) && waypointsMap.has(node.name)) {
-        const entity = nodeEntities.get(node.name)
-        const waypoints = waypointsMap.get(node.name)
-        const cartesianWaypoints = waypointsToCartesian(waypoints)
-        const positionProperty = createSampledPositionProperty(cartesianWaypoints, simulationStartTime)
-        entity.position = positionProperty
-        console.log(`🔄 已更新节点 ${node.name} 的位置属性，航点范围: ${waypoints[0]?.time}s - ${waypoints[waypoints.length - 1]?.time}s`)
-      }
-    })
-    
-    // 注意：不再发送更新后的航点到后端，节点配置XML只在仿真开始时发送一次
-  }, 10000) // ✅ 每10秒更新一次（缩短更新间隔，避免超出范围）
   
   // ✅ 启动定时更新选中节点的InfoBox（每秒更新）
   if (infoBoxUpdateInterval) {
@@ -760,12 +708,6 @@ const handleSimulationPause = () => {
     viewer.clock.shouldAnimate = false
   }
   
-  // 暂停移动节点更新定时器（不清除，只是停止更新）
-  if (movementUpdateInterval) {
-    clearInterval(movementUpdateInterval)
-    movementUpdateInterval = null
-  }
-  
   // 暂停 InfoBox 更新定时器（不清除，只是停止更新）
   if (infoBoxUpdateInterval) {
     clearInterval(infoBoxUpdateInterval)
@@ -780,28 +722,6 @@ const handleSimulationResume = () => {
   // 恢复 Cesium 时钟动画
   if (viewer && viewer.clock) {
     viewer.clock.shouldAnimate = true
-  }
-  
-  // 恢复移动节点更新定时器
-  if (isSimulationRunning.value && !movementUpdateInterval) {
-    movementUpdateInterval = setInterval(() => {
-      const runningTime = getRunningTime()
-      
-      // ✅ 生成新的航点（从当前时间开始，未来600秒=10分钟，增加缓冲）
-      waypointsMap = generateAllWaypoints(props.nodes, runningTime, 600)
-      
-      // 更新移动节点的位置属性（仅前端显示）
-      props.nodes.forEach(node => {
-        if (!node.isStatic && nodeEntities.has(node.name) && waypointsMap.has(node.name)) {
-          const entity = nodeEntities.get(node.name)
-          const waypoints = waypointsMap.get(node.name)
-          const cartesianWaypoints = waypointsToCartesian(waypoints)
-          const positionProperty = createSampledPositionProperty(cartesianWaypoints, simulationStartTime)
-          entity.position = positionProperty
-          console.log(`🔄 已更新节点 ${node.name} 的位置属性，航点范围: ${waypoints[0]?.time}s - ${waypoints[waypoints.length - 1]?.time}s`)
-        }
-      })
-    }, 20000) // ✅ 每20秒更新一次（缩短更新间隔，避免超出范围）
   }
   
   // 恢复 InfoBox 更新定时器
@@ -839,11 +759,6 @@ const handleSimulationStop = () => {
   connectionLines.clear()
   
   // 清除定时器
-  if (movementUpdateInterval) {
-    clearInterval(movementUpdateInterval)
-    movementUpdateInterval = null
-  }
-  
   if (infoBoxUpdateInterval) {
     clearInterval(infoBoxUpdateInterval)
     infoBoxUpdateInterval = null
@@ -857,9 +772,10 @@ const handleSimulationStop = () => {
     }
   })
   
-  // 清空航点
-  waypointsMap.clear()
   simulationStartTime = null
+  
+  // 重置所有节点移动状态
+  resetAllNodeStates()
 }
 
 // 监听Cesium时钟倍速变化

@@ -1,10 +1,13 @@
 /**
- * 航点计算工具
- * 实现三维随机游走模型（Random Waypoint Mobility Model）
+ * 移动模型工具
+ * 实现随机游走模型（Random Walk Mobility Model）
  */
 
 import * as Cesium from 'cesium'
-import { regionBounds, getMobilityParams, getAltitudeRange } from '../config/mobility.config.js'
+import { regionBounds, getMobilityParams } from '../config/mobility.config.js'
+
+// 存储每个节点的移动状态
+const nodeMovementState = new Map()
 
 /**
  * 随机数生成器（指定范围）
@@ -14,20 +17,58 @@ function randomInRange(min, max) {
 }
 
 /**
- * 生成随机三维坐标（经纬高）
+ * 将角度归一化到0-360度
  */
-function generateRandomPosition(nodeType, currentLat, currentLng, currentAlt, params) {
-  const altRange = getAltitudeRange(nodeType)
+function normalizeAngle(angle) {
+  while (angle < 0) angle += 360
+  while (angle >= 360) angle -= 360
+  return angle
+}
+
+/**
+ * 初始化节点的移动状态
+ */
+function initNodeMovementState(node) {
+  const params = getMobilityParams(node.type)
   
-  // 计算新位置（基于当前位置和距离范围）
-  const distance = randomInRange(params.minWaypointDistance, params.maxWaypointDistance)
-  const bearing = randomInRange(0, 360) // 随机方向角度
+  return {
+    lat: node.lat,
+    lng: node.lng,
+    alt: node.alt,
+    speed: randomInRange(params.speed.min, params.speed.max),
+    direction: randomInRange(0, 360), // 移动方向（度）
+    lastUpdateTime: 0
+  }
+}
+
+/**
+ * 获取或创建节点的移动状态
+ */
+function getNodeState(node) {
+  if (!nodeMovementState.has(node.name)) {
+    nodeMovementState.set(node.name, initNodeMovementState(node))
+  }
+  return nodeMovementState.get(node.name)
+}
+
+/**
+ * 更新节点位置（随机游走模型）
+ * @param {Object} state - 节点移动状态
+ * @param {Number} deltaTime - 时间增量（秒）
+ * @param {String} nodeType - 节点类型
+ * @returns {Object} 新的位置 {lat, lng, alt}
+ */
+function updatePosition(state, deltaTime, nodeType) {
+  const params = getMobilityParams(nodeType)
   
-  // 使用Haversine公式计算新的经纬度
+  // 计算移动距离
+  const distance = state.speed * deltaTime
+  
+  // 使用Haversine公式计算新位置
   const R = 6371000 // 地球半径（米）
-  const lat1 = currentLat * Math.PI / 180
-  const lng1 = currentLng * Math.PI / 180
-  const bearingRad = bearing * Math.PI / 180
+  const lat1 = state.lat * Math.PI / 180
+  const lng1 = state.lng * Math.PI / 180
+  const bearingRad = state.direction * Math.PI / 180
   
   const lat2 = Math.asin(
     Math.sin(lat1) * Math.cos(distance / R) +
@@ -41,276 +82,142 @@ function generateRandomPosition(nodeType, currentLat, currentLng, currentAlt, pa
   
   let newLat = lat2 * 180 / Math.PI
   let newLng = lng2 * 180 / Math.PI
+  let newAlt = state.alt
   
-  // 确保在区域边界内
-  newLat = Math.max(regionBounds.lat.min, Math.min(regionBounds.lat.max, newLat))
-  newLng = Math.max(regionBounds.lng.min, Math.min(regionBounds.lng.max, newLng))
+  // 边界检测和处理
+  let hitBoundary = false
   
-  // 随机高度（根据节点类型设置不同的变化幅度）
-  let altChangeRange = 20  // 默认±20米
-  if (nodeType === 'UAV') {
-    altChangeRange = 100  // 无人机±100米（变化更大）
-  } else if (nodeType === 'AUV') {
-    altChangeRange = 15  // 水下航行器±15米
+  if (newLat < regionBounds.lat.min || newLat > regionBounds.lat.max) {
+    // 碰到南北边界，反弹
+    state.direction = 180 - state.direction
+    newLat = Math.max(regionBounds.lat.min, Math.min(regionBounds.lat.max, newLat))
+    hitBoundary = true
   }
   
-  let newAlt = currentAlt + randomInRange(-altChangeRange, altChangeRange)
-  newAlt = Math.max(altRange.min, Math.min(altRange.max, newAlt))
+  if (newLng < regionBounds.lng.min || newLng > regionBounds.lng.max) {
+    // 碰到东西边界，反弹
+    state.direction = -state.direction
+    newLng = Math.max(regionBounds.lng.min, Math.min(regionBounds.lng.max, newLng))
+    hitBoundary = true
+  }
+  
+  // 归一化方向角
+  state.direction = normalizeAngle(state.direction)
+  
+  // 如果没有碰到边界，有一定概率随机改变方向（模拟随机游走）
+  if (!hitBoundary && Math.random() < 0.01) { // 1%概率每帧改变方向
+    state.direction = randomInRange(0, 360)
+    // 同时随机改变速度
+    state.speed = randomInRange(params.speed.min, params.speed.max)
+  }
+  
+  // 更新状态
+  state.lat = newLat
+  state.lng = newLng
+  state.alt = newAlt
   
   return { lat: newLat, lng: newLng, alt: newAlt }
 }
 
 /**
- * 计算两点间的距离（米）
- */
-function calculateDistance(lat1, lng1, alt1, lat2, lng2, alt2) {
-  const R = 6371000 // 地球半径（米）
-  const dLat = (lat2 - lat1) * Math.PI / 180
-  const dLng = (lng2 - lng1) * Math.PI / 180
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng / 2) * Math.sin(dLng / 2)
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  const horizontalDist = R * c
-  const verticalDist = alt2 - alt1
-  
-  return Math.sqrt(horizontalDist * horizontalDist + verticalDist * verticalDist)
-}
-
-/**
- * 为单个节点生成航点序列
+ * 创建随机游走的位置回调属性
  * @param {Object} node - 节点对象
- * @param {Number} currentTime - 当前仿真时间（秒）
- * @param {Number} duration - 生成航点的总时长（秒）
- * @returns {Array} 航点数组 [{lat, lng, alt, time}, ...]
+ * @returns {Cesium.CallbackProperty}
  */
-export function generateWaypoints(node, currentTime, duration = 300) {
+export function createRandomWalkPositionProperty(node) {
   if (node.isStatic) {
-    // 静态节点返回单个航点
-    return [{
-      lat: node.lat,
-      lng: node.lng,
-      alt: node.alt,
-      time: currentTime
-    }]
-  }
-  
-  if (node.mobilityModel === 'Linear') {
-    // 线性移动模型：随机方向匀速直线运动
-    return generateLinearWaypoints(node, currentTime, duration)
-  } else {
-    // 默认使用Waypoint移动模型
-    return generateWaypointWaypoints(node, currentTime, duration)
-  }
-}
-
-/**
- * 生成Waypoint移动模型的航点
- */
-function generateWaypointWaypoints(node, currentTime, duration = 300) {
-  const params = getMobilityParams(node.type)
-  const waypoints = []
-  const MAX_WAYPOINTS = 20  // 最大航点数量限制（防止XML过大）
-  
-  let currentLat = node.lat
-  let currentLng = node.lng
-  let currentAlt = node.alt
-  let time = currentTime
-  
-  // 添加起始点
-  waypoints.push({
-    lat: currentLat,
-    lng: currentLng,
-    alt: currentAlt,
-    time: time
-  })
-  
-  // 生成航点直到达到持续时间或达到最大数量
-  while (time < currentTime + duration && waypoints.length < MAX_WAYPOINTS) {
-    // 生成下一个随机航点
-    const nextPos = generateRandomPosition(node.type, currentLat, currentLng, currentAlt, params)
-    
-    // 计算到达该航点所需时间
-    const distance = calculateDistance(
-      currentLat, currentLng, currentAlt,
-      nextPos.lat, nextPos.lng, nextPos.alt
+    // 静态节点返回固定位置
+    return new Cesium.ConstantPositionProperty(
+      Cesium.Cartesian3.fromDegrees(node.lng, node.lat, node.alt)
     )
-    const speed = randomInRange(params.speed.min, params.speed.max)
-    const travelTime = distance / speed
-    
-    // 添加航点
-    time += travelTime
-    if (time > currentTime + duration) {
-      break // 超出时长限制
+  }
+  
+  // 初始化节点状态
+  const state = getNodeState(node)
+  let lastTime = 0
+  
+  // 创建CallbackProperty实现实时位置更新
+  return new Cesium.CallbackProperty((time) => {
+    if (!time) {
+      return Cesium.Cartesian3.fromDegrees(state.lng, state.lat, state.alt)
     }
     
-    waypoints.push({
-      lat: nextPos.lat,
-      lng: nextPos.lng,
-      alt: nextPos.alt,
-      time: time
-    })
+    // 获取当前仿真时间（秒）
+    const currentTime = Cesium.JulianDate.secondsDifference(time, Cesium.JulianDate.fromIso8601('2024-01-01T00:00:00Z'))
     
-    // 添加停留时间
-    const pauseTime = randomInRange(params.pauseTime.min, params.pauseTime.max)
-    time += pauseTime
+    // 计算时间差
+    const deltaTime = Math.max(0, currentTime - lastTime)
     
-    // 停留期间位置不变
-    if (time < currentTime + duration) {
-      waypoints.push({
-        lat: nextPos.lat,
-        lng: nextPos.lng,
-        alt: nextPos.alt,
-        time: time
-      })
+    if (deltaTime > 0 && deltaTime < 10) { // 防止时间跳跃过大
+      // 更新位置
+      updatePosition(state, deltaTime, node.type)
+      lastTime = currentTime
+    } else if (lastTime === 0) {
+      lastTime = currentTime
     }
     
-    // 更新当前位置
-    currentLat = nextPos.lat
-    currentLng = nextPos.lng
-    currentAlt = nextPos.alt
+    return Cesium.Cartesian3.fromDegrees(state.lng, state.lat, state.alt)
+  }, false) // false表示位置不是常量
+}
+
+/**
+ * 重置所有节点的移动状态
+ */
+export function resetAllNodeStates() {
+  nodeMovementState.clear()
+  console.log('🔄 所有节点移动状态已重置')
+}
+
+/**
+ * 重置指定节点的移动状态
+ */
+export function resetNodeState(nodeName) {
+  nodeMovementState.delete(nodeName)
+}
+
+/**
+ * 获取节点当前位置
+ * @param {Object} node - 节点对象
+ * @returns {Object} 当前位置 {lat, lng, alt}
+ */
+export function getNodeCurrentPosition(node) {
+  if (node.isStatic) {
+    return { lat: node.lat, lng: node.lng, alt: node.alt }
   }
   
-  return waypoints
+  const state = getNodeState(node)
+  return { lat: state.lat, lng: state.lng, alt: state.alt }
 }
 
-/**
- * 生成Linear移动模型的航点（随机方向匀速直线运动）
- */
-function generateLinearWaypoints(node, currentTime, duration = 300) {
-  const params = getMobilityParams(node.type)
-  const waypoints = []
-  
-  let currentLat = node.lat
-  let currentLng = node.lng
-  let currentAlt = node.alt
-  let time = currentTime
-  
-  // 添加起始点
-  waypoints.push({
-    lat: currentLat,
-    lng: currentLng,
-    alt: currentAlt,
-    time: time
-  })
-  
-  // 随机生成一个方向（0-360度）
-  const bearing = randomInRange(0, 360)
-  // 随机生成一个速度（在速度范围内）
-  const speed = randomInRange(params.speed.min, params.speed.max)
-  
-  // 计算总距离
-  const totalDistance = speed * duration
-  
-  // 使用Haversine公式计算终点位置
-  const R = 6371000 // 地球半径（米）
-  const lat1 = currentLat * Math.PI / 180
-  const lng1 = currentLng * Math.PI / 180
-  const bearingRad = bearing * Math.PI / 180
-  
-  const lat2 = Math.asin(
-    Math.sin(lat1) * Math.cos(totalDistance / R) +
-    Math.cos(lat1) * Math.sin(totalDistance / R) * Math.cos(bearingRad)
-  )
-  
-  const lng2 = lng1 + Math.atan2(
-    Math.sin(bearingRad) * Math.sin(totalDistance / R) * Math.cos(lat1),
-    Math.cos(totalDistance / R) - Math.sin(lat1) * Math.sin(lat2)
-  )
-  
-  let endLat = lat2 * 180 / Math.PI
-  let endLng = lng2 * 180 / Math.PI
-  
-  // 确保在区域边界内
-  endLat = Math.max(regionBounds.lat.min, Math.min(regionBounds.lat.max, endLat))
-  endLng = Math.max(regionBounds.lng.min, Math.min(regionBounds.lng.max, endLng))
-  
-  // 保持高度不变（匀速直线运动）
-  const endAlt = currentAlt
-  
-  // 添加终点航点
-  waypoints.push({
-    lat: endLat,
-    lng: endLng,
-    alt: endAlt,
-    time: currentTime + duration
-  })
-  
-  console.log(`🚀 线性移动模型: ${node.name} 从 [${currentLng}, ${currentLat}, ${currentAlt}m] 向方向 ${bearing.toFixed(2)}° 以 ${speed.toFixed(2)}m/s 运动到 [${endLng.toFixed(6)}, ${endLat.toFixed(6)}, ${endAlt}m]`)
-  
-  return waypoints
+// 为了保持兼容性，保留这些函数名
+export function generateWaypoints() {
+  return []
 }
 
-/**
- * 将航点转换为Cesium的笛卡尔坐标
- * @param {Array} waypoints - 航点数组（经纬高格式）
- * @returns {Array} 笛卡尔坐标数组
- */
-export function waypointsToCartesian(waypoints) {
-  return waypoints.map(wp => ({
-    position: Cesium.Cartesian3.fromDegrees(wp.lng, wp.lat, wp.alt),
-    time: wp.time,
-    lat: wp.lat,
-    lng: wp.lng,
-    alt: wp.alt
-  }))
+export function generateAllWaypoints() {
+  return new Map()
 }
 
-/**
- * 为所有可移动节点生成航点
- * @param {Array} nodes - 节点数组
- * @param {Number} currentTime - 当前仿真时间（秒）
- * @param {Number} duration - 航点持续时长（秒）
- * @returns {Map} 节点名称 -> 航点数组的映射
- */
-export function generateAllWaypoints(nodes, currentTime, duration = 300) {
-  const waypointsMap = new Map()
-  
-  nodes.forEach(node => {
-    const waypoints = generateWaypoints(node, currentTime, duration)
-    waypointsMap.set(node.name, waypoints)
-  })
-  
-  return waypointsMap
+export function waypointsToCartesian() {
+  return []
 }
 
-/**
- * 创建Cesium的SampledPositionProperty
- * @param {Array} waypoints - 航点数组（笛卡尔坐标）
- * @param {Number} startTime - 仿真开始的JulianDate
- * @returns {Cesium.SampledPositionProperty}
- */
-export function createSampledPositionProperty(waypoints, startTime) {
-  const positionProperty = new Cesium.SampledPositionProperty()
-  positionProperty.setInterpolationOptions({
-    interpolationDegree: 1,
-    interpolationAlgorithm: Cesium.LinearApproximation
-  })
-  
-  if (!waypoints || waypoints.length === 0) {
-    console.warn('⚠️ 航点数组为空，无法创建位置属性')
-    return positionProperty
-  }
-  
-  waypoints.forEach(wp => {
-    const time = Cesium.JulianDate.addSeconds(startTime, wp.time, new Cesium.JulianDate())
-    positionProperty.addSample(time, wp.position)
-  })
-  
-  // ✅ 关键修复：在最后一个航点之后添加一个延长的航点
-  // 这样即使时钟超过原定范围，节点也会停留在最后位置，而不是消失
-  const lastWaypoint = waypoints[waypoints.length - 1]
-  if (lastWaypoint) {
-    // 添加一个延长到很远未来的航点（保持最后一个位置）
-    const extendedTime = Cesium.JulianDate.addSeconds(
-      startTime, 
-      lastWaypoint.time + 86400, // 延长24小时
-      new Cesium.JulianDate()
-    )
-    positionProperty.addSample(extendedTime, lastWaypoint.position)
-  }
-  
-  return positionProperty
+export function createSampledPositionProperty() {
+  return new Cesium.SampledPositionProperty()
 }
 
+export function createNodePositionProperty() {
+  return new Cesium.SampledPositionProperty()
+}
+
+export function createAllPositionProperties() {
+  return new Map()
+}
+
+export function updatePositionProperty() {
+  // 空实现
+}
+
+export function updateNodePosition() {
+  return null
+}

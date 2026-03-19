@@ -118,6 +118,7 @@ import BusinessChart from './components/panels/BusinessChart.vue'
 import SimulationCompleteDialog from './components/SimulationCompleteDialog.vue'
 import { simulationState } from './services/simulation.service.js'
 import { addWSListener, removeWSListener, resetSimulationData, getSimulationData } from './services/websocket.service.js'
+import { getInitialNodes } from './config/nodes.data.js'
 
 // 响应式数据
 // 使用全局仿真状态
@@ -354,6 +355,10 @@ const handleControlButtonClick = (event) => {
     resetSimulationData()
     chartCompleteTriggered.value = false // 重置完成标记
     showCompleteDialog.value = false // 关闭弹窗
+    
+    // 初始化节点数据
+    nodes.value = getInitialNodes()
+    console.log('🚀 仿真开始，初始化节点数据:', nodes.value.length, '个节点')
   }
 }
 
@@ -369,6 +374,29 @@ const handlePerformanceData = (performanceData) => {
   if (performanceData && performanceData.links) {
     links.value = performanceData.links
     console.log('🔗 连接关系已更新:', links.value.length, '条连接')
+    
+    // 根据仿真时间处理节点损毁
+    const simulationTime = performanceData.simulationTime || 0
+    const initialNodes = getInitialNodes()
+    
+    // 定义节点损毁时间配置
+    const nodeDestroyTime = {
+      'UAV16': 30,
+      'UAV9': 30,
+      'A-UAV2': 40
+    }
+    
+    // 过滤节点：排除已损毁的节点
+    nodes.value = initialNodes.filter(node => {
+      const destroyTime = nodeDestroyTime[node.name]
+      if (destroyTime && simulationTime >= destroyTime) {
+        console.log(`💥 节点 ${node.name} 在 ${simulationTime}秒时损毁！`)
+        return false
+      }
+      return true
+    })
+    
+    console.log(`✅ 当前显示 ${nodes.value.length} 个节点（仿真时间: ${simulationTime}秒）`)
   }
 }
 

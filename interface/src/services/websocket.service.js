@@ -153,7 +153,7 @@ const startTestMode = async () => {
       // 模拟WebSocket消息
       simulateWebSocketMessage(xmlString)
       
-      // 等待一段时间再加载下一个文件
+      // 等待一段时间再加载下一个文件（2秒间隔）
       if (i < testXmlFiles.length - 1) {
         await new Promise(resolve => setTimeout(resolve, 10000))
       }

@@ -2,10 +2,10 @@
  * 移动模型配置
  */
 
-// 舟山海域边界配置
+// 地图边界配置（经度86-89度，纬度34-37度）
 export const regionBounds = {
-  lat: { min: 29.5, max: 31.8 },
-  lng: { min: 122.2, max: 123.5 },
+  lat: { min: 34.0, max: 37.0 },
+  lng: { min: 86.0, max: 89.0 },
   // 不同类型节点的高度范围
   altRanges: {
     AUV: { min: -100, max: -20 },     // 水下航行器
@@ -36,11 +36,11 @@ export const mobilityParams = {
       maxWaypointDistance: 5000
     },
     UAV: {
-      speed: { min: 2500, max: 3000 },       // 速度范围 m/s (提升100倍)
-      pauseTime: { min: 5, max: 5 },         // 停留时间 秒
+      speed: { min: 300, max: 800 },        // 速度范围 m/s (加快30倍)
+      pauseTime: { min: 0.1, max: 0.2 },     // 停留时间缩短
       waypointInterval: 30,
-      minWaypointDistance: 10000,
-      maxWaypointDistance: 80000
+      minWaypointDistance: 15000,
+      maxWaypointDistance: 90000
     },
     'A-UAV': {
       speed: { min: 200, max: 400 },         // 速度范围 m/s (提升10倍)
