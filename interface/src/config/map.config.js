@@ -58,7 +58,7 @@ export const mapConfig = {
       'A-UAV': '/models/A-UAV.glb',
       
       // ⚔️ B-无人机
-      'B-UAV': '/models/B-UAV.glb',
+      'B-UAV': '/models/C.glb',
       
       // 🚢 水面无人艇
       USV: '/models/USV.glb',
@@ -128,9 +128,9 @@ export const mapConfig = {
         scale: 70.0
       },
       'B-UAV': {
-        minimumPixelSize: 200,
-        maximumScale: 1300,
-        scale: 80.0
+        minimumPixelSize: 150,
+        maximumScale: 15000,
+        scale: 200.0
       },
       HIBS: {
         minimumPixelSize: 150,

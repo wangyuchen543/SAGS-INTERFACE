@@ -271,7 +271,7 @@ export const initialNodesData = [
     name: 'PV2',
     type: 'PV',
     lat: 34.9167,
-    lng: 116.4,
+    lng: 116.3,
     alt: 0,
     comms: ['4G/5G'],
     mobilityModel: 'ConstantPosition',
